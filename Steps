@@ -1,0 +1,3 @@
+Stappen
+- POST maken naar /login met username en password
+- Op basis daarvan een user en token teruggeven waarmee ingelogd kan worden
