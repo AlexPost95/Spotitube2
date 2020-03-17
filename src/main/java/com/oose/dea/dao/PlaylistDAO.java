@@ -80,4 +80,17 @@ public class PlaylistDAO implements IPlaylistDAO{
         }
         return playlists;
     }
+
+    @Override
+    public void deletePlaylistById(int playlistId) {
+
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = "delete from playlist where id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, playlistId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -75,7 +75,15 @@ public class Spotitube {
         return Response.status(200).entity(playlistsDTO).build();
     }
 
-    @Inject
+    @DELETE
+    @Path("playlist/{id}")
+    public void deletePlaylist(@PathParam("id") int id) {
+
+        iPlaylistDAO.deletePlaylistById(id);
+
+    }
+
+        @Inject
     public void setPlaylistDAO(IPlaylistDAO iPlaylistDAO) {
         this.iPlaylistDAO = iPlaylistDAO;
     }
