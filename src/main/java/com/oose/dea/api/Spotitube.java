@@ -4,6 +4,7 @@ import com.oose.dea.api.oose.dea.api.dto.PlaylistDTO;
 import com.oose.dea.api.oose.dea.api.dto.PlaylistsDTO;
 import com.oose.dea.api.oose.dea.api.dto.TokenDTO;
 import com.oose.dea.dao.IPlaylistDAO;
+import com.oose.dea.dao.PlaylistDAO;
 import com.oose.dea.domain.Playlist;
 
 import javax.inject.Inject;
@@ -81,6 +82,32 @@ public class Spotitube {
 
         iPlaylistDAO.deletePlaylistById(id);
 
+    }
+
+    @POST
+    @Path("addplaylists")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addPlaylist() {
+
+        int id = 77;
+        String name = "playlist created from api";
+        String tracks = "some tracks to test if it works";
+
+        ArrayList<Playlist> playlists = iPlaylistDAO.addPlaylist(id, name, tracks);
+
+        if (playlists == null) {
+            return Response.status(404).build();
+        }
+
+        PlaylistDTO playlistDTO = new PlaylistDTO();
+
+
+        PlaylistsDTO playlistsDTO = new PlaylistsDTO();
+        playlistsDTO.playlists = playlists;
+        playlistsDTO.length = playlists.size();
+
+        return Response.status(200).entity(playlistsDTO).build();
     }
 
         @Inject
