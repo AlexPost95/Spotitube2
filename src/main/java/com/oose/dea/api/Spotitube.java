@@ -85,16 +85,15 @@ public class Spotitube {
     }
 
     @POST
-    @Path("addplaylists")
+    @Path("playlists")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addPlaylist() {
 
         int id = 77;
         String name = "playlist created from api";
-        String tracks = "some tracks to test if it works";
 
-        ArrayList<Playlist> playlists = iPlaylistDAO.addPlaylist(id, name, tracks);
+        ArrayList<Playlist> playlists = iPlaylistDAO.addPlaylist(name);
 
         if (playlists == null) {
             return Response.status(404).build();

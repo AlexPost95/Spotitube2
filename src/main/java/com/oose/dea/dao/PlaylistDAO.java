@@ -94,16 +94,14 @@ public class PlaylistDAO implements IPlaylistDAO{
     }
 
     @Override
-    public ArrayList<Playlist> addPlaylist(int id, String name, String tracks) {
+    public ArrayList<Playlist> addPlaylist(String name) {
 
         ArrayList<Playlist> playlists = getPlaylists();
 
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "insert into playlist(id, name, tracks) values(?, ?, ?)";
+            String sql = "insert into playlist(name) values(?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, id);
-            preparedStatement.setString(2, name);
-            preparedStatement.setString(3, tracks);
+            preparedStatement.setString(1, name);
 
             preparedStatement.executeUpdate();
 
