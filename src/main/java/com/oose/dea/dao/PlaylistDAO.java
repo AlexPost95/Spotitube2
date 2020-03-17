@@ -1,5 +1,6 @@
 package com.oose.dea.dao;
 
+import com.oose.dea.api.oose.dea.api.dto.PlaylistsDTO;
 import com.oose.dea.domain.Playlist;
 
 import javax.annotation.Resource;

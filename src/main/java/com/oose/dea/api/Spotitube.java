@@ -1,6 +1,7 @@
 package com.oose.dea.api;
 
 import com.oose.dea.api.oose.dea.api.dto.PlaylistDTO;
+import com.oose.dea.api.oose.dea.api.dto.PlaylistsDTO;
 import com.oose.dea.api.oose.dea.api.dto.TokenDTO;
 import com.oose.dea.dao.IPlaylistDAO;
 import com.oose.dea.domain.Playlist;
@@ -61,11 +62,17 @@ public class Spotitube {
     public Response getPlaylists(){
 
         ArrayList<Playlist> playlists = iPlaylistDAO.getPlaylists();
+
         if (playlists == null) {
             return Response.status(404).build();
         }
 
-        return Response.status(200).entity(playlists).build();
+        PlaylistsDTO playlistsDTO = new PlaylistsDTO();
+        playlistsDTO.playlists = playlists;
+        playlistsDTO.length = playlists.size();
+
+
+        return Response.status(200).entity(playlistsDTO).build();
     }
 
     @Inject
