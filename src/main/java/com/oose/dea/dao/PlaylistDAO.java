@@ -53,6 +53,8 @@ public class PlaylistDAO implements IPlaylistDAO{
     @Override
     public ArrayList<Playlist> getPlaylists() {
 
+        ArrayList<Playlist> playlists = new ArrayList<Playlist>();
+
         try (Connection connection = dataSource.getConnection()) {
             String sql = "select * from playlist";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -60,21 +62,21 @@ public class PlaylistDAO implements IPlaylistDAO{
 
             while(resultSet.next()){
 
-                ArrayList<Playlist> playlists= new ArrayList<Playlist>();
                 Playlist playlist = new Playlist();
                 playlist.setId(resultSet.getInt("id"));
                 playlist.setName(resultSet.getString("name"));
                 playlist.setOwner(resultSet.getBoolean("owner"));
                 playlist.setTracks(resultSet.getString("tracks"));
 
+                playlists.add(playlist);
 
-                return playlists;
             }
+
 
         } catch (SQLException e){
             e.printStackTrace();
             return null;
         }
-        return null;
+        return playlists;
     }
 }

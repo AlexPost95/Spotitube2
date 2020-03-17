@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 
 
 @Path("")
@@ -18,7 +19,7 @@ public class Spotitube {
     @GET
     @Path("hello")
     public String hello() {
-        return "doet ie het?";
+        return "Spotitube hello test";
     }
 
     @POST
@@ -52,7 +53,19 @@ public class Spotitube {
         playlistDTO.tracks = playlist.getTracks();
 
         return Response.status(200).entity(playlistDTO).build();
+    }
 
+    @GET
+    @Path("playlists")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPlaylists(){
+
+        ArrayList<Playlist> playlists = iPlaylistDAO.getPlaylists();
+        if (playlists == null) {
+            return Response.status(404).build();
+        }
+
+        return Response.status(200).entity(playlists).build();
     }
 
     @Inject
