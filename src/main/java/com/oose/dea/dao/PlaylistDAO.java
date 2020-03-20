@@ -112,4 +112,29 @@ public class PlaylistDAO implements IPlaylistDAO{
         return playlists;
     }
 
+    @Override
+    public int getTotalDuration() {
+
+        int totalDuration = 0;
+
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = "select SUM(duration) from track";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()){
+
+                totalDuration = resultSet.getInt("SUM(duration)");
+
+            }
+
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            return 0;
+        }
+        return totalDuration;
+    }
+
 }

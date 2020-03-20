@@ -81,6 +81,7 @@ public class Spotitube {
     public Response getPlaylists(){
 
         ArrayList<Playlist> playlists = iPlaylistDAO.getPlaylists();
+        int totalDuration = iPlaylistDAO.getTotalDuration();
 
         if (playlists == null) {
             return Response.status(404).build();
@@ -88,7 +89,7 @@ public class Spotitube {
 
         PlaylistsDTO playlistsDTO = new PlaylistsDTO();
         playlistsDTO.playlists = playlists;
-        playlistsDTO.length = playlists.size();
+        playlistsDTO.length = totalDuration;
 
 
         return Response.status(200).entity(playlistsDTO).build();
