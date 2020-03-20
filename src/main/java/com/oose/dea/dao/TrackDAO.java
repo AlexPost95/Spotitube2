@@ -55,4 +55,39 @@ public class TrackDAO implements ITrackDAO{
         return null;
     }
 
+    @Override
+    public ArrayList<Track> getTracks() {
+
+        ArrayList<Track> tracks = new ArrayList<Track>();
+
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = "select * from track";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()){
+
+                Track track = new Track();
+                track.setId(resultSet.getInt("id"));
+                track.setTitle(resultSet.getString("title"));
+                track.setPerformer(resultSet.getString("performer"));
+                track.setDuration(resultSet.getInt("duration"));
+                track.setAlbum(resultSet.getString("album"));
+                track.setPlaycount(resultSet.getInt("playcount"));
+                track.setPublicationDate(resultSet.getDate("publicationDate"));
+                track.setDescription(resultSet.getString("description"));
+                track.setOfflineAvailable(resultSet.getBoolean("offlineAvailable"));
+
+                tracks.add(track);
+
+            }
+
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+        return tracks;
+    }
+
 }

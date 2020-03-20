@@ -1,9 +1,6 @@
 package com.oose.dea.api;
 
-import com.oose.dea.api.oose.dea.api.dto.PlaylistDTO;
-import com.oose.dea.api.oose.dea.api.dto.PlaylistsDTO;
-import com.oose.dea.api.oose.dea.api.dto.TokenDTO;
-import com.oose.dea.api.oose.dea.api.dto.TrackDTO;
+import com.oose.dea.api.oose.dea.api.dto.*;
 import com.oose.dea.dao.IPlaylistDAO;
 import com.oose.dea.dao.ITrackDAO;
 import com.oose.dea.dao.PlaylistDAO;
@@ -158,11 +155,20 @@ public class Spotitube {
     @GET
     @Path("tracks")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getTracks(){
+    public Response getTracks(){
 
-       return "GET TRACKS";
+        ArrayList<Track> tracks = iTrackDAO.getTracks();
+
+        if (tracks == null) {
+            return Response.status(404).build();
+        }
+
+        TracksDTO tracksDTO = new TracksDTO();
+        tracksDTO.tracks = tracks;
+
+
+        return Response.status(200).entity(tracksDTO).build();
     }
-
         @Inject
     public void setPlaylistDAO(IPlaylistDAO iPlaylistDAO) {
         this.iPlaylistDAO = iPlaylistDAO;
