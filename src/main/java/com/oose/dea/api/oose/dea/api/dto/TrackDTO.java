@@ -13,4 +13,5 @@ public class TrackDTO {
     public Date publicationDate;
     public String description;
     public boolean offlineAvailable;
+    public int playlistId;
 }

@@ -147,13 +147,15 @@ public class Spotitube {
         trackDTO.publicationDate = track.getPublicationDate();
         trackDTO.description = track.getDescription();
         trackDTO.offlineAvailable = track.getOfflineAvailable();
+        trackDTO.playlistId = track.getPlaylistId();
 
 
         return Response.status(200).entity(trackDTO).build();
     }
 
+
     @GET
-    @Path("tracks")
+    @Path("playlists/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTracks(){
 
@@ -169,7 +171,27 @@ public class Spotitube {
 
         return Response.status(200).entity(tracksDTO).build();
     }
-        @Inject
+
+
+    @GET
+    @Path("playlists/{id}/tracks")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTracksByPlaylist(@PathParam("id") int id){
+
+        ArrayList<Track> tracks = iTrackDAO.getTrackByPlaylistId(id);
+
+        if (tracks == null) {
+            return Response.status(404).build();
+        }
+
+        TracksDTO tracksDTO = new TracksDTO();
+        tracksDTO.tracks = tracks;
+
+
+        return Response.status(200).entity(tracksDTO).build();
+    }
+
+    @Inject
     public void setPlaylistDAO(IPlaylistDAO iPlaylistDAO) {
         this.iPlaylistDAO = iPlaylistDAO;
     }

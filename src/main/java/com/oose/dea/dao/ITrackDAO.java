@@ -7,5 +7,6 @@ import java.util.ArrayList;
 
 public interface ITrackDAO {
     Track getTrackById(int trackId);
+    ArrayList<Track> getTrackByPlaylistId(int playlistId);
     ArrayList<Track> getTracks();
 }
