@@ -11,6 +11,6 @@ public class TrackDTO {
     public String album;
     public int playount;
     public Date publicationDate;
-    private String description;
+    public String description;
     public boolean offlineAvailable;
 }

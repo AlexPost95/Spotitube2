@@ -3,9 +3,13 @@ package com.oose.dea.api;
 import com.oose.dea.api.oose.dea.api.dto.PlaylistDTO;
 import com.oose.dea.api.oose.dea.api.dto.PlaylistsDTO;
 import com.oose.dea.api.oose.dea.api.dto.TokenDTO;
+import com.oose.dea.api.oose.dea.api.dto.TrackDTO;
 import com.oose.dea.dao.IPlaylistDAO;
+import com.oose.dea.dao.ITrackDAO;
 import com.oose.dea.dao.PlaylistDAO;
+import com.oose.dea.dao.TrackDAO;
 import com.oose.dea.domain.Playlist;
+import com.oose.dea.domain.Track;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -13,11 +17,28 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 
+/*
+* DONE:
+* GET /playlists
+* GET /playlists/:id
+* POST /playlists
+* DELETE /playlists/:id NOT DONE
+*
+* TODO GET /tracks
+* TODO GET /playlists/:id/tracks
+* TODO PUT /playlists/:id
+* TODO DELETE /playlists/:id/tracks/:id
+* TODO POST /playlists/:id/tracks
+*
+*
+* */
 
 @Path("")
 public class Spotitube {
 
     private IPlaylistDAO iPlaylistDAO;
+    private ITrackDAO iTrackDAO;
+
     @GET
     @Path("hello")
     public String hello() {
@@ -39,7 +60,7 @@ public class Spotitube {
     }
 
     @GET
-    @Path("playlist/{id}")
+    @Path("playlists/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPlaylist(@PathParam("id") int id){
 
@@ -77,7 +98,7 @@ public class Spotitube {
     }
 
     @DELETE
-    @Path("playlist/{id}")
+    @Path("playlists/{id}")
     public void deletePlaylist(@PathParam("id") int id) {
 
         iPlaylistDAO.deletePlaylistById(id);
@@ -90,8 +111,7 @@ public class Spotitube {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addPlaylist() {
 
-        int id = 77;
-        String name = "playlist created from api";
+        String name = "new one";
 
         ArrayList<Playlist> playlists = iPlaylistDAO.addPlaylist(name);
 
@@ -109,9 +129,48 @@ public class Spotitube {
         return Response.status(200).entity(playlistsDTO).build();
     }
 
+    @GET
+    @Path("tracks/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTrack(@PathParam("id") int id){
+
+        Track track = iTrackDAO.getTrackById(id);
+
+        if (track == null) {
+            return Response.status(404).build();
+        }
+
+        TrackDTO trackDTO = new TrackDTO();
+        trackDTO.id = track.getId();
+        trackDTO.title = track.getTitle();
+        trackDTO.performer = track.getPerformer();
+        trackDTO.duration = track.getDuration();
+        trackDTO.album = track.getAlbum();
+        trackDTO.playount = track.getPlaycount();
+        trackDTO.publicationDate = track.getPublicationDate();
+        trackDTO.description = track.getDescription();
+        trackDTO.offlineAvailable = track.getOfflineAvailable();
+
+
+        return Response.status(200).entity(trackDTO).build();
+    }
+
+    @GET
+    @Path("tracks")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getTracks(){
+
+       return "GET TRACKS";
+    }
+
         @Inject
     public void setPlaylistDAO(IPlaylistDAO iPlaylistDAO) {
         this.iPlaylistDAO = iPlaylistDAO;
+    }
+
+    @Inject
+    public void setTrackDAO(ITrackDAO iTrackDAO) {
+        this.iTrackDAO = iTrackDAO;
     }
 
 }

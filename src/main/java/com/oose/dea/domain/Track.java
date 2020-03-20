@@ -4,15 +4,15 @@ import java.util.Date;
 
 public class Track {
 
-    int id;
-    String title;
-    String performer;
-    int duration;
-    String album;
-    int playcount;
-    Date publicationDate;
-    String description;
-    boolean offlineAvailable;
+    public int id;
+    public String title;
+    public String performer;
+    public int duration;
+    public String album;
+    public int playcount;
+    public Date publicationDate;
+    public String description;
+    public boolean offlineAvailable;
 
     public Track() {
     }
@@ -93,7 +93,7 @@ public class Track {
         this.description = description;
     }
 
-    public boolean isOfflineAvailable() {
+    public boolean getOfflineAvailable() {
         return offlineAvailable;
     }
 
