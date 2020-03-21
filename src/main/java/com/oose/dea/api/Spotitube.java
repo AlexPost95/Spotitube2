@@ -11,8 +11,10 @@ import com.oose.dea.domain.Track;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /*
 * DONE:
@@ -107,18 +109,13 @@ public class Spotitube {
     @Path("playlists")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addPlaylist() {
+    public Response addPlaylist(Playlist playlist) {
 
-        String name = "new one";
-
-        ArrayList<Playlist> playlists = iPlaylistDAO.addPlaylist(name);
+        ArrayList<Playlist> playlists = iPlaylistDAO.addPlaylist(playlist.name);
 
         if (playlists == null) {
             return Response.status(404).build();
         }
-
-        PlaylistDTO playlistDTO = new PlaylistDTO();
-
 
         PlaylistsDTO playlistsDTO = new PlaylistsDTO();
         playlistsDTO.playlists = playlists;
