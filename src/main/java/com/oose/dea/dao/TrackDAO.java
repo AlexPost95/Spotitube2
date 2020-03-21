@@ -93,13 +93,14 @@ public class TrackDAO implements ITrackDAO{
     }
 
     @Override
-    public ArrayList<Track> getTracks() {
+    public ArrayList<Track> getTracks(int forPlaylist) {
 
         ArrayList<Track> tracks = new ArrayList<Track>();
 
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "select * from track";
+            String sql = "select * from track where playlistId != ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, forPlaylist);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()){
@@ -117,10 +118,7 @@ public class TrackDAO implements ITrackDAO{
                 track.setPlaylistId(resultSet.getInt("playlistId"));
 
                 tracks.add(track);
-
             }
-
-
         } catch (SQLException e){
             e.printStackTrace();
             return null;

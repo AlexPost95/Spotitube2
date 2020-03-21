@@ -170,13 +170,12 @@ public class Spotitube {
         return Response.status(200).entity(trackDTO).build();
     }
 
-
     @GET
-    @Path("playlists/{id}")
+    @Path("tracks")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getTracks(){
+    public Response getTracks(@QueryParam("forPlaylist") int forPlaylist){
 
-        ArrayList<Track> tracks = iTrackDAO.getTracks();
+        ArrayList<Track> tracks = iTrackDAO.getTracks(forPlaylist);
 
         if (tracks == null) {
             return Response.status(404).build();
