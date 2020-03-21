@@ -14,9 +14,10 @@ insert into track(title, performer, duration, album, playlistId) values ("Welcom
 
 delete from playlist where id = 7;
 
-delete from playlist where id > 0;
+delete from playlist where id = 14;
 select * from playlist;
 select * from track;
+select SUM(duration) from track;
 select * from track where playlistId = 2;
 use spotitube;
 
