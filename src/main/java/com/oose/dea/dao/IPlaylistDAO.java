@@ -10,5 +10,6 @@ public interface IPlaylistDAO {
     void deletePlaylistById(int id);
     ArrayList<Playlist> addPlaylist(String name);
     int getTotalDuration();
+    ArrayList<Playlist> updatePlaylistById(int playlistId, String name);
 
 }

@@ -97,9 +97,25 @@ public class PlaylistDAO implements IPlaylistDAO{
     }
 
     @Override
-    public ArrayList<Playlist> addPlaylist(String name) {
+    public ArrayList<Playlist> updatePlaylistById(int playlistId, String name) {
 
-        ArrayList<Playlist> playlists = getPlaylists();
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = "update playlist set name = ? where id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, name);
+            preparedStatement.setInt(2, playlistId);
+            int resultSet = preparedStatement.executeUpdate();
+            System.out.println(resultSet);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return getPlaylists();
+
+    }
+
+    @Override
+    public ArrayList<Playlist> addPlaylist(String name) {
 
         try (Connection connection = dataSource.getConnection()) {
             String sql = "insert into playlist(name) values(?)";
@@ -112,7 +128,7 @@ public class PlaylistDAO implements IPlaylistDAO{
             e.printStackTrace();
         }
 
-        return playlists;
+        return getPlaylists();
     }
 
     @Override

@@ -119,7 +119,26 @@ public class Spotitube {
 
         PlaylistsDTO playlistsDTO = new PlaylistsDTO();
         playlistsDTO.playlists = playlists;
-        playlistsDTO.length = playlists.size();
+        playlistsDTO.length = iPlaylistDAO.getTotalDuration();
+
+        return Response.status(200).entity(playlistsDTO).build();
+    }
+
+    @PUT
+    @Path("playlists/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updatePlaylist(Playlist playlist) {
+
+        ArrayList<Playlist> playlists = iPlaylistDAO.updatePlaylistById(playlist.id, playlist.name);
+
+        if (playlists == null) {
+            return Response.status(404).build();
+        }
+
+        PlaylistsDTO playlistsDTO = new PlaylistsDTO();
+        playlistsDTO.playlists = playlists;
+        playlistsDTO.length = iPlaylistDAO.getTotalDuration();
 
         return Response.status(200).entity(playlistsDTO).build();
     }
