@@ -1,9 +1,6 @@
 package com.oose.dea;
 
-import com.oose.dea.api.StarWars;
-import com.oose.dea.api.oose.dea.api.dto.JediDTO;
-import com.oose.dea.dao.IJediDAO;
-import com.oose.dea.domain.Jedi;
+import com.oose.dea.api.Spotitube;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,5 +13,16 @@ import static org.mockito.Mockito.when;
 public class SpotitubeTest {
 
     Spotitube spotitube;
+
+    @BeforeEach
+    public void setup(){
+        spotitube = new Spotitube();
+    }
+
+    @Test
+    public void helloTest(){
+        String expected = "hello test";
+        assertEquals(expected, spotitube.hello());
+    }
 
 }

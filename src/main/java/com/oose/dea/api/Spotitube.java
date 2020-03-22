@@ -32,6 +32,14 @@ public class Spotitube {
     private IPlaylistDAO iPlaylistDAO;
     private ITrackDAO iTrackDAO;
 
+    @GET
+    @Path("hello")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String hello() {
+
+        return "hello test";
+    }
+
     @POST
     @Path("login")
     @Produces(MediaType.APPLICATION_JSON)
