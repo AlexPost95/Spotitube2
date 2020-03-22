@@ -202,6 +202,23 @@ public class PlaylistDAO implements IPlaylistDAO{
     }
 
     @Override
+    public ArrayList<Track> addTrackToPlaylist(int playlistId, int trackId) {
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = "insert into playlisttracks values (?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, trackId);
+            preparedStatement.setInt(2, playlistId);
+            int resultSet = preparedStatement.executeUpdate();
+            System.out.println(resultSet);
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+        return getTracksByPlaylistId(playlistId);
+    }
+
+    @Override
     public ArrayList<Playlist> addPlaylist(String name) {
 
         try (Connection connection = dataSource.getConnection()) {

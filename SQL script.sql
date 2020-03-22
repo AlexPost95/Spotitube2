@@ -23,6 +23,7 @@ ALTER TABLE playlisttracks ADD FOREIGN KEY (playlistId) REFERENCES playlist(id);
 drop table playlisttracks;
 
 insert into playlisttracks values (1, 1);
+insert into playlisttracks values (1, 2);
 insert into playlisttracks values (2, 2);
 insert into playlisttracks values (3, 3);
 insert into playlisttracks values (4, 4);
@@ -35,12 +36,20 @@ insert into playlisttracks values (10, 2);
 insert into playlisttracks values (11, 3);
 insert into playlisttracks values (12, 4);
 insert into playlisttracks values (13, 1);
+insert into playlisttracks values (14, 2);
+insert into playlisttracks values (15, 3);
+insert into playlisttracks values (16, 4);
+insert into playlisttracks values (17, 1);
+insert into playlisttracks values (18, 2);
+insert into playlisttracks values (18, 1);
+
 
 delete from playlist where id = 8;
 
 delete from playlist where id = 14;
 select * from playlist;
 select * from track;
+select * from playlisttracks;
 select * from track where playlistId != 3;
 delete from track where playlistId = null;
 select SUM(duration) from track;
@@ -52,6 +61,14 @@ select t.*
 from playlisttracks pt inner join track t on pt.trackId = t.id
 where pt.playlistId = 3;
 
+select t.*
+from playlisttracks pt
+inner join track t on pt.trackId = t.id 
+inner join playlist p on pt.playlistId = p.id
+where p.id != 1;
+
 ALTER TABLE track ADD FOREIGN KEY (playlistId) REFERENCES playlist(id);
 update playlist set name = "123" where id = 17;
-update track set playlistId = 2 where playlistId = NULL
+update track set playlistId = 2 where playlistId = NULL;
+
+delete from playlisttracks where playlistId = 4 AND trackId = 16;

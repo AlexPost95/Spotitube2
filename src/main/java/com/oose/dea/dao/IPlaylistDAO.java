@@ -15,4 +15,5 @@ public interface IPlaylistDAO {
     ArrayList<Track> getTracksByPlaylistId(int playlistId);
     ArrayList<Track> deleteSongFromPlaylist(int playlistId, int trackId);
     ArrayList<Track> getAllTracks();
+    ArrayList<Track> addTrackToPlaylist(int playlistId, int trackId);
 }

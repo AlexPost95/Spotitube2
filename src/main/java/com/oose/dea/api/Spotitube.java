@@ -11,22 +11,20 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
-import java.util.logging.Logger;
+import java.util.UUID;
 
 /*
 * DONE:
 * GET /playlists
 * GET /playlists/:id
 * POST /playlists
-* DELETE /playlists/:id NOT DONE
+* DELETE /playlists/id/tracks/:id
+* PUT /playlists/:id
+* GET /playlists/:id/tracks
+* DELETE /playlists/:id
+* POST/playlists/:id/tracks
 *
-* TODO GET /tracks
-* TODO GET /playlists/:id/tracks
-* TODO PUT /playlists/:id
-* TODO DELETE /playlists/:id/tracks/:id
-* TODO POST /playlists/:id/tracks
-*
-*
+* TODO GET /tracks with 'forPlaylist' query param. The sql query is not correct yet
 * */
 
 @Path("")
@@ -34,12 +32,6 @@ public class Spotitube {
 
     private IPlaylistDAO iPlaylistDAO;
     private ITrackDAO iTrackDAO;
-
-    @GET
-    @Path("hello")
-    public String hello() {
-        return "Spotitube hello test";
-    }
 
     @POST
     @Path("login")
@@ -50,7 +42,7 @@ public class Spotitube {
         TokenDTO tokenDTO = new TokenDTO();
 
         tokenDTO.user = "alex";
-        tokenDTO.token = "1234-1234-1234";
+        tokenDTO.token = UUID.randomUUID();
 
         return Response.status(200).entity(tokenDTO).build();
     }
@@ -202,6 +194,24 @@ public class Spotitube {
     @Path("/playlists/{playlistId}/tracks/{trackId}")
     public void deleteSongFromPlaylist(@PathParam("playlistId") int playlistId, @PathParam("trackId") int trackId) {
         iPlaylistDAO.deleteSongFromPlaylist(playlistId, trackId);
+    }
+
+    @POST
+    @Path("/playlists/{playlistId}/tracks")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addTrackToPlaylist(@PathParam("playlistId") int playlistId, Track track) {
+
+        ArrayList<Track> tracks = iPlaylistDAO.addTrackToPlaylist(playlistId, track.id);
+
+        if (tracks == null) {
+            return Response.status(404).build();
+        }
+
+        TracksDTO tracksDTO = new TracksDTO();
+        tracksDTO.tracks = tracks;
+
+        return Response.status(200).entity(tracksDTO).build();
     }
 
     @Inject
