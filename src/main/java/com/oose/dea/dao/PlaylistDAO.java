@@ -247,11 +247,8 @@ public class PlaylistDAO implements IPlaylistDAO{
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()){
-
                 totalDuration = resultSet.getInt("SUM(duration)");
-
             }
-
 
         } catch (SQLException e){
             e.printStackTrace();
@@ -259,5 +256,4 @@ public class PlaylistDAO implements IPlaylistDAO{
         }
         return totalDuration;
     }
-
 }

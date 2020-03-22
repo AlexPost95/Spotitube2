@@ -60,7 +60,7 @@ public class TrackDAO implements ITrackDAO{
         ArrayList<Track> tracks = new ArrayList<Track>();
 
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "select t.* from playlisttracks pt inner join track t on pt.trackId = t.id  inner join playlist p on pt.playlistId = p.id where p.id != ?";
+            String sql = "select * from track where id not in (select t.id from track t inner join playlisttracks pt on t.id = pt.trackId where pt.playlistId = ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, forPlaylist);
             ResultSet resultSet = preparedStatement.executeQuery();

@@ -43,8 +43,16 @@ insert into playlisttracks values (17, 1);
 insert into playlisttracks values (18, 2);
 insert into playlisttracks values (18, 1);
 
+drop table playlisttracks;
 
-delete from playlist where id = 8;
+CREATE TABLE playlisttracks (
+    trackId int not null,
+    playlistId int not null,
+    foreign key (trackId) references track(id) on update cascade on delete cascade,
+    foreign key (playlistId) references playlist(id) on update cascade on delete cascade
+    );
+
+delete from playlist where id = 4;
 
 delete from playlist where id = 14;
 select * from playlist;
@@ -56,6 +64,15 @@ select SUM(duration) from track;
 select * from track where playlistId = 2;
 select * from playlisttracks where playlistId = 2;
 use spotitube;
+
+select * from track where id not in (
+	select t.id 
+	from track t inner join playlisttracks pt on t.id = pt.trackId 
+	where pt.playlistId = 3
+);
+
+SELECT *
+FROM playlisttracks where playlistId = 1;
 
 select t.*
 from playlisttracks pt inner join track t on pt.trackId = t.id
