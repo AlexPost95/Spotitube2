@@ -81,7 +81,7 @@ public class PlaylistDAO implements IPlaylistDAO{
     }
 
     @Override
-    public void deletePlaylistById(int playlistId) {
+    public ArrayList<Playlist> deletePlaylistById(int playlistId) {
 
         try (Connection connection = dataSource.getConnection()) {
             String sql = "delete from playlist where id = ?";
@@ -93,6 +93,7 @@ public class PlaylistDAO implements IPlaylistDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return getPlaylists();
     }
 
     @Override
@@ -144,6 +145,55 @@ public class PlaylistDAO implements IPlaylistDAO{
                 tracks.add(track);
             }
 
+        } catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+        return tracks;
+    }
+
+    @Override
+    public ArrayList<Track> deleteSongFromPlaylist(int playlistId, int trackId) {
+
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = "delete from playlisttracks where playlistId = ? AND trackId = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, playlistId);
+            preparedStatement.setInt(2, trackId);
+            int resultSet = preparedStatement.executeUpdate();
+            System.out.println(resultSet);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return getAllTracks();
+    }
+
+    @Override
+    public ArrayList<Track> getAllTracks() {
+        ArrayList<Track> tracks = new ArrayList<Track>();
+
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = "select * from track";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()){
+
+                Track track = new Track();
+                track.setId(resultSet.getInt("id"));
+                track.setTitle(resultSet.getString("title"));
+                track.setPerformer(resultSet.getString("performer"));
+                track.setDuration(resultSet.getInt("duration"));
+                track.setAlbum(resultSet.getString("album"));
+                track.setPlaycount(resultSet.getInt("playcount"));
+                track.setPublicationDate(resultSet.getDate("publicationDate"));
+                track.setDescription(resultSet.getString("description"));
+                track.setOfflineAvailable(resultSet.getBoolean("offlineAvailable"));
+                track.setPlaylistId(resultSet.getInt("playlistId"));
+
+                tracks.add(track);
+            }
         } catch (SQLException e){
             e.printStackTrace();
             return null;

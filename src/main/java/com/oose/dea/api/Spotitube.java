@@ -197,12 +197,12 @@ public class Spotitube {
 
         return Response.status(200).entity(tracksDTO).build();
     }
-//
-//    @DELETE
-//    @Path("/playlists/{playlistId}/tracks/{trackId}")
-//    public void deleteSongFromPlaylis(@PathParam("playlistId") int playlistId, @PathParam("trackId") int tracktId) {
-//        iPlaylistDAO.deleteSongFromPlaylist(playlistId, tracktId);
-//    }
+
+    @DELETE
+    @Path("/playlists/{playlistId}/tracks/{trackId}")
+    public void deleteSongFromPlaylist(@PathParam("playlistId") int playlistId, @PathParam("trackId") int trackId) {
+        iPlaylistDAO.deleteSongFromPlaylist(playlistId, trackId);
+    }
 
     @Inject
     public void setPlaylistDAO(IPlaylistDAO iPlaylistDAO) {
