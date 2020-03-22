@@ -11,14 +11,47 @@ insert into track(title, performer, duration, album) values ("Brick By Boring Br
 insert into track(title, performer, duration, album) values ("Dance, Dance", "Fall Out Boy", 253, "From Under the Cork Tree");
 insert into track(title, performer, duration, album, playlistId) values ("Welcome to the Black Parade", "My Chemical Romance", 253, "The Black Parade", 2);
 
+insert into track(title, performer, duration, album) values ("New song 1", "Paramore", 339, "Paramore");
+insert into track(title, performer, duration, album) values ("New song 2", "Paramore", 339, "Paramore");
+insert into track(title, performer, duration, album) values ("New song 3", "Paramore", 339, "Paramore");
+insert into track(title, performer, duration, album) values ("New song 4", "Paramore", 339, "Paramore");
+insert into track(title, performer, duration, album) values ("New song 5", "Paramore", 339, "Paramore");
+insert into track(title, performer, duration, album) values ("New song 6", "Paramore", 339, "Paramore");
 
-delete from playlist where id = 7;
+ALTER TABLE playlisttracks ADD FOREIGN KEY (trackId) REFERENCES track(id);
+ALTER TABLE playlisttracks ADD FOREIGN KEY (playlistId) REFERENCES playlist(id);
+drop table playlisttracks;
+
+insert into playlisttracks values (1, 1);
+insert into playlisttracks values (2, 2);
+insert into playlisttracks values (3, 3);
+insert into playlisttracks values (4, 4);
+insert into playlisttracks values (5, 1);
+insert into playlisttracks values (6, 2);
+insert into playlisttracks values (7, 3);
+insert into playlisttracks values (8, 4);
+insert into playlisttracks values (9, 1);
+insert into playlisttracks values (10, 2);
+insert into playlisttracks values (11, 3);
+insert into playlisttracks values (12, 4);
+insert into playlisttracks values (13, 1);
+
+delete from playlist where id = 8;
 
 delete from playlist where id = 14;
 select * from playlist;
 select * from track;
+select * from track where playlistId != 3;
+delete from track where playlistId = null;
 select SUM(duration) from track;
 select * from track where playlistId = 2;
+select * from playlisttracks where playlistId = 2;
 use spotitube;
 
+select t.*
+from playlisttracks pt inner join track t on pt.trackId = t.id
+where pt.playlistId = 3;
+
 ALTER TABLE track ADD FOREIGN KEY (playlistId) REFERENCES playlist(id);
+update playlist set name = "123" where id = 17;
+update track set playlistId = 2 where playlistId = NULL

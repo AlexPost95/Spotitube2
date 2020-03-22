@@ -2,6 +2,7 @@ package com.oose.dea.dao;
 
 import com.oose.dea.api.oose.dea.api.dto.PlaylistsDTO;
 import com.oose.dea.domain.Playlist;
+import com.oose.dea.domain.Track;
 
 import javax.annotation.Resource;
 import javax.enterprise.inject.Default;
@@ -17,7 +18,6 @@ public class PlaylistDAO implements IPlaylistDAO{
 
     @Resource(name = "jdbc/spotitube")
     DataSource dataSource;
-
 
     @Override
     public Playlist getPlaylistById(int playlistId) {
@@ -73,7 +73,6 @@ public class PlaylistDAO implements IPlaylistDAO{
 
             }
 
-
         } catch (SQLException e){
             e.printStackTrace();
             return null;
@@ -112,6 +111,44 @@ public class PlaylistDAO implements IPlaylistDAO{
         }
         return getPlaylists();
 
+    }
+
+    @Override
+    public ArrayList<Track> getTracksByPlaylistId(int playlistId) {
+        if (playlistId <= 0){
+            return null;
+        }
+
+        ArrayList<Track> tracks = new ArrayList<Track>();
+
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = "select t.* from playlisttracks pt inner join track t on pt.trackId = t.id where pt.playlistId = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, playlistId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()){
+
+                Track track = new Track();
+                track.setId(resultSet.getInt("id"));
+                track.setTitle(resultSet.getString("title"));
+                track.setPerformer(resultSet.getString("performer"));
+                track.setDuration(resultSet.getInt("duration"));
+                track.setAlbum(resultSet.getString("album"));
+                track.setPlaycount(resultSet.getInt("playcount"));
+                track.setPublicationDate(resultSet.getDate("publicationDate"));
+                track.setDescription(resultSet.getString("description"));
+                track.setOfflineAvailable(resultSet.getBoolean("offlineAvailable"));
+                track.setPlaylistId(resultSet.getInt("playlistId"));
+
+                tracks.add(track);
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+        return tracks;
     }
 
     @Override
