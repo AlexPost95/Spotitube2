@@ -23,8 +23,7 @@ import java.util.UUID;
 * GET /playlists/:id/tracks
 * DELETE /playlists/:id
 * POST/playlists/:id/tracks
-*
-* TODO GET /tracks with 'forPlaylist' query param. The sql query is not correct yet
+* GET /tracks with queryParam 'forPlaylist'
 * */
 
 @Path("")
@@ -62,7 +61,6 @@ public class Spotitube {
         PlaylistsDTO playlistsDTO = new PlaylistsDTO();
         playlistsDTO.playlists = playlists;
         playlistsDTO.length = totalDuration;
-
 
         return Response.status(200).entity(playlistsDTO).build();
     }

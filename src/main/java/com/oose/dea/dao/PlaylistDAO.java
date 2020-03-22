@@ -87,8 +87,7 @@ public class PlaylistDAO implements IPlaylistDAO{
             String sql = "delete from playlist where id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, playlistId);
-            int resultSet = preparedStatement.executeUpdate();
-            System.out.println(resultSet);
+            preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -104,8 +103,7 @@ public class PlaylistDAO implements IPlaylistDAO{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, name);
             preparedStatement.setInt(2, playlistId);
-            int resultSet = preparedStatement.executeUpdate();
-            System.out.println(resultSet);
+            preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -160,8 +158,7 @@ public class PlaylistDAO implements IPlaylistDAO{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, playlistId);
             preparedStatement.setInt(2, trackId);
-            int resultSet = preparedStatement.executeUpdate();
-            System.out.println(resultSet);
+            preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -208,8 +205,7 @@ public class PlaylistDAO implements IPlaylistDAO{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, trackId);
             preparedStatement.setInt(2, playlistId);
-            int resultSet = preparedStatement.executeUpdate();
-            System.out.println(resultSet);
+            preparedStatement.executeUpdate();
 
         } catch (SQLException e){
             e.printStackTrace();
