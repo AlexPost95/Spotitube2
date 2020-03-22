@@ -55,50 +55,12 @@ public class TrackDAO implements ITrackDAO{
     }
 
     @Override
-    public ArrayList<Track> getTrackByPlaylistId(int playlistId) {
-        if (playlistId <= 0){
-            return null;
-        }
-
-        ArrayList<Track> tracks = new ArrayList<Track>();
-
-        try (Connection connection = dataSource.getConnection()) {
-            String sql = "select * from track where playlistId = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, playlistId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while(resultSet.next()){
-
-                Track track = new Track();
-                track.setId(resultSet.getInt("id"));
-                track.setTitle(resultSet.getString("title"));
-                track.setPerformer(resultSet.getString("performer"));
-                track.setDuration(resultSet.getInt("duration"));
-                track.setAlbum(resultSet.getString("album"));
-                track.setPlaycount(resultSet.getInt("playcount"));
-                track.setPublicationDate(resultSet.getDate("publicationDate"));
-                track.setDescription(resultSet.getString("description"));
-                track.setOfflineAvailable(resultSet.getBoolean("offlineAvailable"));
-                track.setPlaylistId(resultSet.getInt("playlistId"));
-
-                tracks.add(track);
-            }
-
-        } catch (SQLException e){
-            e.printStackTrace();
-            return null;
-        }
-        return tracks;
-    }
-
-    @Override
     public ArrayList<Track> getTracks(int forPlaylist) {
 
         ArrayList<Track> tracks = new ArrayList<Track>();
 
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "select * from track where playlistId != ?";
+            String sql = "select t.* from playlisttracks pt inner join track t on pt.trackId = t.id  inner join playlist p on pt.playlistId = p.id where p.id != ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, forPlaylist);
             ResultSet resultSet = preparedStatement.executeQuery();
