@@ -198,7 +198,7 @@ public class Spotitube {
 
     @DELETE
     @Path("/playlists/{playlistId}/tracks/{trackId}")
-    public void deleteSongFromPlaylist(@PathParam("playlistId") int playlistId, @PathParam("trackId") int trackId) {
+    public void deleteTrackFromPlaylist(@PathParam("playlistId") int playlistId, @PathParam("trackId") int trackId) {
         iPlaylistDAO.deleteSongFromPlaylist(playlistId, trackId);
     }
 
