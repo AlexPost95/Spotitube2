@@ -150,7 +150,6 @@ public class SpotitubeTest {
         assertEquals(2, tracksDTO.tracks.get(1).id);
         assertEquals(2, tracksDTO.tracks.size());
         assertEquals(200, response.getStatus());
-    //TODO
     }
 
     @Test

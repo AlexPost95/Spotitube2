@@ -252,4 +252,8 @@ public class PlaylistDAO implements IPlaylistDAO{
         }
         return totalDuration;
     }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 }
