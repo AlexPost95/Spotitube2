@@ -4,6 +4,7 @@ import com.oose.dea.api.Spotitube;
 import com.oose.dea.api.oose.dea.api.dto.PlaylistDTO;
 import com.oose.dea.api.oose.dea.api.dto.PlaylistsDTO;
 import com.oose.dea.api.oose.dea.api.dto.TrackDTO;
+import com.oose.dea.api.oose.dea.api.dto.TracksDTO;
 import com.oose.dea.dao.IPlaylistDAO;
 import com.oose.dea.dao.ITrackDAO;
 import com.oose.dea.domain.Playlist;
@@ -111,6 +112,44 @@ public class SpotitubeTest {
 
     @Test
     public void getTracksTest(){
+
+        ITrackDAO trackDAO = mock(ITrackDAO.class);
+
+        ArrayList<Track> tracks = new ArrayList<Track>();
+
+        Track track1 = new Track();
+        track1.setId(1);
+        track1.setTitle("track1title");
+        track1.setPerformer("track1performer");
+        track1.setAlbum("track1album");
+
+        Track track2 = new Track();
+        track2.setId(2);
+        track2.setTitle("track2title");
+        track2.setPerformer("track2performer");
+        track2.setAlbum("track2album");
+
+        tracks.add(track1);
+        tracks.add(track2);
+
+        when(trackDAO.getTracks(0)).thenReturn(tracks);
+
+        spotitube.setTrackDAO(trackDAO);
+
+        Response response = spotitube.getTracks(0);
+
+        TracksDTO tracksDTO = (TracksDTO)response.getEntity();
+
+        assertEquals("track1title", tracksDTO.tracks.get(0).title);
+        assertEquals("track2title", tracksDTO.tracks.get(1).title);
+        assertEquals("track1performer", tracksDTO.tracks.get(0).performer);
+        assertEquals("track2performer", tracksDTO.tracks.get(1).performer);
+        assertEquals("track1album", tracksDTO.tracks.get(0).album);
+        assertEquals("track2album", tracksDTO.tracks.get(1).album);
+        assertEquals(1, tracksDTO.tracks.get(0).id);
+        assertEquals(2, tracksDTO.tracks.get(1).id);
+        assertEquals(2, tracksDTO.tracks.size());
+        assertEquals(200, response.getStatus());
     //TODO
     }
 
