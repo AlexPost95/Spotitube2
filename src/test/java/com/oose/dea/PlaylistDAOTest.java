@@ -129,10 +129,27 @@ public class PlaylistDAOTest {
 //
 //    }
 //
-//    @Test
-//    public void getAllTracksTest(){
-//
-//    }
+    @Test
+    public void getAllTracksTest(){
+        try {
+            String expectedSQL = "select * from track";
+
+            when(dataSource.getConnection()).thenReturn(connection);
+            when(connection.prepareStatement(expectedSQL)).thenReturn(preparedStatement);
+            when(preparedStatement.executeQuery()).thenReturn(resultSet);
+            when(resultSet.next()).thenReturn(false);
+
+            playlistDAO.setDataSource(dataSource);
+            ArrayList<Track> tracks = playlistDAO.getAllTracks();
+
+            verify(dataSource).getConnection();
+            verify(connection).prepareStatement(expectedSQL);
+            verify(preparedStatement).executeQuery();
+
+        } catch (Exception e){
+            fail(e.getMessage());
+        }
+    }
 //
 //    @Test
 //    public void addTrackToPlaylistTest(){
