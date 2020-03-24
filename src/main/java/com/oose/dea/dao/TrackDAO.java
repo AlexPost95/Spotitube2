@@ -88,4 +88,7 @@ public class TrackDAO implements ITrackDAO{
         return tracks;
     }
 
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 }
