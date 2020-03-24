@@ -4,6 +4,6 @@ import java.util.UUID;
 
 public class TokenDTO {
 
-    public UUID token;
+    public String token;
     public String user;
 }
