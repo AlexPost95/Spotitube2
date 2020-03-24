@@ -1,6 +1,5 @@
 package com.oose.dea;
 
-import com.oose.dea.api.Spotitube;
 import com.oose.dea.dao.PlaylistDAO;
 import com.oose.dea.domain.Playlist;
 import com.oose.dea.domain.Track;
@@ -19,11 +18,20 @@ import static org.mockito.Mockito.*;
 
 public class PlaylistDAOTest {
 
-        PlaylistDAO playlistDAO = new PlaylistDAO();
-        DataSource dataSource = mock(DataSource.class);
-        Connection connection = mock(Connection.class);
-        PreparedStatement preparedStatement = mock(PreparedStatement.class);
-        ResultSet resultSet = mock(ResultSet.class);
+        PlaylistDAO playlistDAO;
+        DataSource dataSource;
+        Connection connection;
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+
+        @BeforeEach
+        public void setup(){
+            playlistDAO = new PlaylistDAO();
+            dataSource = mock(DataSource.class);
+            connection = mock(Connection.class);
+            preparedStatement = mock(PreparedStatement.class);
+            resultSet = mock(ResultSet.class);
+        }
 
     @Test
     public void getPlaylistByIdTest(){
@@ -124,11 +132,11 @@ public class PlaylistDAOTest {
         }
     }
 
-//    @Test
-//    public void deleteSongFromPlaylistTest(){
-//
-//    }
-//
+    @Test
+    public void deleteSongFromPlaylistTest(){
+
+    }
+
     @Test
     public void getAllTracksTest(){
         try {
@@ -150,12 +158,12 @@ public class PlaylistDAOTest {
             fail(e.getMessage());
         }
     }
-//
+
 //    @Test
 //    public void addTrackToPlaylistTest(){
 //
 //    }
-//
+
 //    @Test
 //    public void addPlaylistTest(){
 //
@@ -183,6 +191,4 @@ public class PlaylistDAOTest {
             fail(e.getMessage());
         }
     }
-
-
 }

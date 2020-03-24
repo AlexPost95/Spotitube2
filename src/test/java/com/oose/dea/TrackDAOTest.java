@@ -2,8 +2,8 @@ package com.oose.dea;
 
 import com.oose.dea.dao.PlaylistDAO;
 import com.oose.dea.dao.TrackDAO;
-import com.oose.dea.domain.Playlist;
 import com.oose.dea.domain.Track;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
@@ -18,11 +18,20 @@ import static org.mockito.Mockito.verify;
 
 public class TrackDAOTest {
 
-    TrackDAO trackDAO = new TrackDAO();
-    DataSource dataSource = mock(DataSource.class);
-    Connection connection = mock(Connection.class);
-    PreparedStatement preparedStatement = mock(PreparedStatement.class);
-    ResultSet resultSet = mock(ResultSet.class);
+    TrackDAO trackDAO;
+    DataSource dataSource;
+    Connection connection;
+    PreparedStatement preparedStatement;
+    ResultSet resultSet;
+
+    @BeforeEach
+    public void setup(){
+        trackDAO = new TrackDAO();
+        dataSource = mock(DataSource.class);
+        connection = mock(Connection.class);
+        preparedStatement = mock(PreparedStatement.class);
+        resultSet = mock(ResultSet.class);
+    }
 
     @Test
     public void getTrackByIdTest(){
