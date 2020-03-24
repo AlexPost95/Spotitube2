@@ -123,4 +123,49 @@ public class PlaylistDAOTest {
             fail(e.getMessage());
         }
     }
+
+//    @Test
+//    public void deleteSongFromPlaylistTest(){
+//
+//    }
+//
+//    @Test
+//    public void getAllTracksTest(){
+//
+//    }
+//
+//    @Test
+//    public void addTrackToPlaylistTest(){
+//
+//    }
+//
+//    @Test
+//    public void addPlaylistTest(){
+//
+//    }
+
+    @Test
+    public void getTotalDurationTest(){
+
+        try {
+            String expectedSQL = "select SUM(duration) from track";
+
+            when(dataSource.getConnection()).thenReturn(connection);
+            when(connection.prepareStatement(expectedSQL)).thenReturn(preparedStatement);
+            when(preparedStatement.executeQuery()).thenReturn(resultSet);
+            when(resultSet.next()).thenReturn(false);
+
+            playlistDAO.setDataSource(dataSource);
+            int duration = playlistDAO.getTotalDuration();
+
+            verify(dataSource).getConnection();
+            verify(connection).prepareStatement(expectedSQL);
+            verify(preparedStatement).executeQuery();
+
+        } catch (Exception e){
+            fail(e.getMessage());
+        }
+    }
+
+
 }
