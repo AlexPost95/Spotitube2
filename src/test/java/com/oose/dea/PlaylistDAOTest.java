@@ -3,6 +3,7 @@ package com.oose.dea;
 import com.oose.dea.api.Spotitube;
 import com.oose.dea.dao.PlaylistDAO;
 import com.oose.dea.domain.Playlist;
+import com.oose.dea.domain.Track;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +24,6 @@ public class PlaylistDAOTest {
         Connection connection = mock(Connection.class);
         PreparedStatement preparedStatement = mock(PreparedStatement.class);
         ResultSet resultSet = mock(ResultSet.class);
-
 
     @Test
     public void getPlaylistByIdTest(){
@@ -61,6 +61,59 @@ public class PlaylistDAOTest {
 
             playlistDAO.setDataSource(dataSource);
             ArrayList<Playlist> playlists = playlistDAO.getPlaylists();
+
+            verify(dataSource).getConnection();
+            verify(connection).prepareStatement(expectedSQL);
+            verify(preparedStatement).executeQuery();
+
+        } catch (Exception e){
+            fail(e.getMessage());
+        }
+    }
+
+//    //TODO
+//    @Test
+//    public void deletePlaylistTest(){
+//        try {
+//            String expectedSQL = "delete from playlist where id = ?";
+//
+//            when(dataSource.getConnection()).thenReturn(connection);
+//            when(connection.prepareStatement(expectedSQL)).thenReturn(preparedStatement);
+//            when(preparedStatement.executeQuery()).thenReturn(resultSet);
+//            when(resultSet.next()).thenReturn(false);
+//
+//            playlistDAO.setDataSource(dataSource);
+//            int playlistId = 1;
+////            ArrayList<Playlist> playlists = playlistDAO.getPlaylists();
+//
+////            verify(dataSource).getConnection();
+////            verify(connection).prepareStatement(expectedSQL);
+////            verify(preparedStatement).setInt(1, playlistId);
+////            verify(preparedStatement).executeQuery();
+//
+//        } catch (Exception e){
+//            fail(e.getMessage());
+//        }
+//    }
+//
+//    @Test
+//    public void updatePlaylistByIdTest(){
+//
+//    }
+
+    @Test
+    public void getTracksByPlaylistIdTest(){
+        try {
+            String expectedSQL = "select t.* from playlisttracks pt inner join track t on pt.trackId = t.id where pt.playlistId = ?";
+
+            when(dataSource.getConnection()).thenReturn(connection);
+            when(connection.prepareStatement(expectedSQL)).thenReturn(preparedStatement);
+            when(preparedStatement.executeQuery()).thenReturn(resultSet);
+            when(resultSet.next()).thenReturn(false);
+
+            playlistDAO.setDataSource(dataSource);
+            int playlistId = 1;
+            ArrayList<Track> tracks = playlistDAO.getTracksByPlaylistId(playlistId);
 
             verify(dataSource).getConnection();
             verify(connection).prepareStatement(expectedSQL);
