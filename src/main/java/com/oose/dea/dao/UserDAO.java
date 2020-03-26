@@ -49,12 +49,14 @@ public class UserDAO implements IUserDAO{
     }
 
     @Override
-    public User addUser(String token){
+    public User addUser(String name, String password, String token){
 
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "insert into user(token) values(?)";
+            String sql = "insert into user(name, password, token) values(?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, token);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, password);
+            preparedStatement.setString(3, token);
 
             User user = new User();
             int resultSet = preparedStatement.executeUpdate();

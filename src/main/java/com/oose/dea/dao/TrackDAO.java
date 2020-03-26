@@ -42,7 +42,6 @@ public class TrackDAO implements ITrackDAO{
                 track.setPublicationDate(resultSet.getDate("publicationDate"));
                 track.setDescription(resultSet.getString("description"));
                 track.setOfflineAvailable(resultSet.getBoolean("offlineAvailable"));
-                track.setPlaylistId(resultSet.getInt("playlistId"));
 
                 return track;
             }
@@ -77,7 +76,6 @@ public class TrackDAO implements ITrackDAO{
                 track.setPublicationDate(resultSet.getDate("publicationDate"));
                 track.setDescription(resultSet.getString("description"));
                 track.setOfflineAvailable(resultSet.getBoolean("offlineAvailable"));
-                track.setPlaylistId(resultSet.getInt("playlistId"));
 
                 tracks.add(track);
             }

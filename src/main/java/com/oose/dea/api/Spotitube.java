@@ -4,13 +4,11 @@ import com.oose.dea.api.oose.dea.api.dto.*;
 import com.oose.dea.dao.IPlaylistDAO;
 import com.oose.dea.dao.ITrackDAO;
 import com.oose.dea.dao.IUserDAO;
-import com.oose.dea.dao.UserDAO;
 import com.oose.dea.domain.*;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -50,15 +48,13 @@ public class Spotitube {
     public Response getUser(User user) {
 
         String generatedToken = UUID.randomUUID().toString();
-        String userName = "test";
-        String password = "test";
 
         TokenDTO tokenDTO = new TokenDTO();
 
-        tokenDTO.user = userName;
+        tokenDTO.user = user.getName();
         tokenDTO.token = generatedToken;
 
-        User addedUser = iUserDAO.addUser(generatedToken);
+        User addedUser = iUserDAO.addUser(user.getName(), user.getPassword(), generatedToken);
 
         return Response.status(200).entity(tokenDTO).build();
     }

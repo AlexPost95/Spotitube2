@@ -1,9 +1,7 @@
 package com.oose.dea.dao;
 
-import com.oose.dea.api.oose.dea.api.dto.PlaylistsDTO;
 import com.oose.dea.domain.Playlist;
 import com.oose.dea.domain.Track;
-
 import javax.annotation.Resource;
 import javax.enterprise.inject.Default;
 import javax.sql.DataSource;
@@ -12,9 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
-
-import static javax.faces.component.UIInput.isEmpty;
 
 @Default
 public class PlaylistDAO implements IPlaylistDAO{
@@ -40,13 +35,7 @@ public class PlaylistDAO implements IPlaylistDAO{
                 Playlist playlist = new Playlist();
                 playlist.setId(resultSet.getInt("id"));
                 playlist.setName(resultSet.getString("name"));
-//                if (owner == resultSet.getString("owner")){
-//                    playlist.setOwner(true);
-//                }
-//                else playlist.setOwner(false);
                 playlist.setOwner(resultSet.getString("owner"));
-                playlist.setTracks(resultSet.getString("tracks"));
-
 
                 return playlist;
             }
@@ -74,7 +63,6 @@ public class PlaylistDAO implements IPlaylistDAO{
                 playlist.setId(resultSet.getInt("id"));
                 playlist.setName(resultSet.getString("name"));
                 playlist.setOwner(resultSet.getString("owner"));
-                playlist.setTracks(resultSet.getString("tracks"));
 
                 playlists.add(playlist);
 
@@ -97,27 +85,10 @@ public class PlaylistDAO implements IPlaylistDAO{
             preparedStatement.setInt(1, playlistId);
             preparedStatement.executeUpdate();
 
-            String sql2 = "select * from playlist";
-            PreparedStatement preparedStatement2 = connection.prepareStatement(sql2);
-            ResultSet resultSet = preparedStatement2.executeQuery();
-
-            while(resultSet.next()){
-
-                Playlist playlist = new Playlist();
-                playlist.setId(resultSet.getInt("id"));
-                playlist.setName(resultSet.getString("name"));
-
-                playlist.setOwner(resultSet.getString("owner"));
-                playlist.setTracks(resultSet.getString("tracks"));
-
-                playlists.add(playlist);
-
-            }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return playlists;
+        return getPlaylists(owner);
     }
 
     @Override
@@ -163,7 +134,6 @@ public class PlaylistDAO implements IPlaylistDAO{
                 track.setPublicationDate(resultSet.getDate("publicationDate"));
                 track.setDescription(resultSet.getString("description"));
                 track.setOfflineAvailable(resultSet.getBoolean("offlineAvailable"));
-                track.setPlaylistId(resultSet.getInt("playlistId"));
 
                 tracks.add(track);
             }
@@ -212,7 +182,6 @@ public class PlaylistDAO implements IPlaylistDAO{
                 track.setPublicationDate(resultSet.getDate("publicationDate"));
                 track.setDescription(resultSet.getString("description"));
                 track.setOfflineAvailable(resultSet.getBoolean("offlineAvailable"));
-                track.setPlaylistId(resultSet.getInt("playlistId"));
 
                 tracks.add(track);
             }
