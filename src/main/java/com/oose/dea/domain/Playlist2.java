@@ -1,15 +1,15 @@
 package com.oose.dea.domain;
 
-public class Playlist {
+public class Playlist2 {
 
     public int id;
     public String name;
-    public String owner;
+    public boolean owner;
     public String tracks;
 
-    public Playlist(){};
+    public Playlist2(){};
 
-    public Playlist(int id, String name, String owner, String tracks) {
+    public Playlist2(int id, String name, boolean owner, String tracks) {
         this.id = id;
         this.name = name;
         this.owner = owner;
@@ -30,11 +30,11 @@ public class Playlist {
         this.name = name;
     }
 
-    public String isOwner() {
+    public boolean isOwner() {
         return owner;
     }
 
-    public void setOwner(String owner) {
+    public void setOwner(boolean owner) {
         this.owner = owner;
     }
 

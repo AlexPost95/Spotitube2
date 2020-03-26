@@ -20,7 +20,7 @@ public class PlaylistDAO implements IPlaylistDAO{
     DataSource dataSource;
 
     @Override
-    public Playlist getPlaylistById(int playlistId) {
+    public Playlist getPlaylistById(int playlistId, String owner) {
 
         if (playlistId <= 0){
             return null;
@@ -37,7 +37,11 @@ public class PlaylistDAO implements IPlaylistDAO{
                 Playlist playlist = new Playlist();
                 playlist.setId(resultSet.getInt("id"));
                 playlist.setName(resultSet.getString("name"));
-                playlist.setOwner(resultSet.getBoolean("owner"));
+//                if (owner == resultSet.getString("owner")){
+//                    playlist.setOwner(true);
+//                }
+//                else playlist.setOwner(false);
+                playlist.setOwner(resultSet.getString("owner"));
                 playlist.setTracks(resultSet.getString("tracks"));
 
 
@@ -52,7 +56,7 @@ public class PlaylistDAO implements IPlaylistDAO{
     }
 
     @Override
-    public ArrayList<Playlist> getPlaylists() {
+    public ArrayList<Playlist> getPlaylists(String owner) {
 
         ArrayList<Playlist> playlists = new ArrayList<Playlist>();
 
@@ -66,7 +70,12 @@ public class PlaylistDAO implements IPlaylistDAO{
                 Playlist playlist = new Playlist();
                 playlist.setId(resultSet.getInt("id"));
                 playlist.setName(resultSet.getString("name"));
-                playlist.setOwner(resultSet.getBoolean("owner"));
+                System.out.println("owner from database: " + resultSet.getString("owner"));
+//                if (owner == resultSet.getString("owner")){
+//                    playlist.setOwner(true);
+//                }
+//                else playlist.setOwner(false);
+                playlist.setOwner(resultSet.getString("owner"));
                 playlist.setTracks(resultSet.getString("tracks"));
 
                 playlists.add(playlist);
@@ -81,7 +90,7 @@ public class PlaylistDAO implements IPlaylistDAO{
     }
 
     @Override
-    public ArrayList<Playlist> deletePlaylistById(int playlistId) {
+    public ArrayList<Playlist> deletePlaylistById(int playlistId, String owner) {
 
         try (Connection connection = dataSource.getConnection()) {
             String sql = "delete from playlist where id = ?";
@@ -92,11 +101,11 @@ public class PlaylistDAO implements IPlaylistDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return getPlaylists();
+        return getPlaylists(owner);
     }
 
     @Override
-    public ArrayList<Playlist> updatePlaylistById(int playlistId, String name) {
+    public ArrayList<Playlist> updatePlaylistById(int playlistId, String name, String owner) {
 
         try (Connection connection = dataSource.getConnection()) {
             String sql = "update playlist set name = ? where id = ?";
@@ -108,12 +117,12 @@ public class PlaylistDAO implements IPlaylistDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return getPlaylists();
+        return getPlaylists(owner);
 
     }
 
     @Override
-    public ArrayList<Track> getTracksByPlaylistId(int playlistId) {
+    public ArrayList<Track> getTracksByPlaylistId(int playlistId, String owner) {
         if (playlistId <= 0){
             return null;
         }
@@ -151,7 +160,7 @@ public class PlaylistDAO implements IPlaylistDAO{
     }
 
     @Override
-    public ArrayList<Track> deleteSongFromPlaylist(int playlistId, int trackId) {
+    public ArrayList<Track> deleteSongFromPlaylist(int playlistId, int trackId, String owner) {
 
         try (Connection connection = dataSource.getConnection()) {
             String sql = "delete from playlisttracks where playlistId = ? AND trackId = ?";
@@ -163,11 +172,11 @@ public class PlaylistDAO implements IPlaylistDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return getAllTracks();
+        return getAllTracks(owner);
     }
 
     @Override
-    public ArrayList<Track> getAllTracks() {
+    public ArrayList<Track> getAllTracks(String owner) {
         ArrayList<Track> tracks = new ArrayList<Track>();
 
         try (Connection connection = dataSource.getConnection()) {
@@ -199,7 +208,7 @@ public class PlaylistDAO implements IPlaylistDAO{
     }
 
     @Override
-    public ArrayList<Track> addTrackToPlaylist(int playlistId, int trackId) {
+    public ArrayList<Track> addTrackToPlaylist(int playlistId, int trackId, String owner) {
         try (Connection connection = dataSource.getConnection()) {
             String sql = "insert into playlisttracks values (?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -211,16 +220,17 @@ public class PlaylistDAO implements IPlaylistDAO{
             e.printStackTrace();
             return null;
         }
-        return getTracksByPlaylistId(playlistId);
+        return getTracksByPlaylistId(playlistId, owner);
     }
 
     @Override
-    public ArrayList<Playlist> addPlaylist(String name) {
+    public ArrayList<Playlist> addPlaylist(String name, String owner) {
 
         try (Connection connection = dataSource.getConnection()) {
-            String sql = "insert into playlist(name) values(?)";
+            String sql = "insert into playlist(name, owner) values(?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, name);
+            preparedStatement.setString(2, owner);
 
             preparedStatement.executeUpdate();
 
@@ -228,11 +238,11 @@ public class PlaylistDAO implements IPlaylistDAO{
             e.printStackTrace();
         }
 
-        return getPlaylists();
+        return getPlaylists(owner);
     }
 
     @Override
-    public int getTotalDuration() {
+    public int getTotalDuration(String owner) {
 
         int totalDuration = 0;
 

@@ -6,14 +6,14 @@ import com.oose.dea.domain.Track;
 import java.util.ArrayList;
 
 public interface IPlaylistDAO {
-    Playlist getPlaylistById(int playlistId);
-    ArrayList<Playlist> getPlaylists();
-    ArrayList<Playlist> deletePlaylistById(int id);
-    ArrayList<Playlist> addPlaylist(String name);
-    int getTotalDuration();
-    ArrayList<Playlist> updatePlaylistById(int playlistId, String name);
-    ArrayList<Track> getTracksByPlaylistId(int playlistId);
-    ArrayList<Track> deleteSongFromPlaylist(int playlistId, int trackId);
-    ArrayList<Track> getAllTracks();
-    ArrayList<Track> addTrackToPlaylist(int playlistId, int trackId);
+    Playlist getPlaylistById(int playlistId, String owner);
+    ArrayList<Playlist> getPlaylists(String owner);
+    ArrayList<Playlist> deletePlaylistById(int id, String owner);
+    ArrayList<Playlist> addPlaylist(String name, String owner);
+    int getTotalDuration(String owner);
+    ArrayList<Playlist> updatePlaylistById(int playlistId, String name, String owner);
+    ArrayList<Track> getTracksByPlaylistId(int playlistId, String owner);
+    ArrayList<Track> deleteSongFromPlaylist(int playlistId, int trackId, String owner);
+    ArrayList<Track> getAllTracks(String owner);
+    ArrayList<Track> addTrackToPlaylist(int playlistId, int trackId, String owner);
 }
