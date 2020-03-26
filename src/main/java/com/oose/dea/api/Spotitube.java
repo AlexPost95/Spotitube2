@@ -58,7 +58,7 @@ public class Spotitube {
         tokenDTO.user = userName;
         tokenDTO.token = generatedToken;
 
-//        User addedUser = iUserDAO.addUser(generatedToken);
+        User addedUser = iUserDAO.addUser(generatedToken);
 
         return Response.status(200).entity(tokenDTO).build();
     }
@@ -103,8 +103,21 @@ public class Spotitube {
 
     @DELETE
     @Path("playlists/{id}")
-    public void deletePlaylist(@QueryParam("token") String owner, @PathParam("id") int id) {
+    public Response deletePlaylist(@QueryParam("token") String owner, @PathParam("id") int id) {
         iPlaylistDAO.deletePlaylistById(id, owner);
+
+        ArrayList<Playlist> playlists = iPlaylistDAO.getPlaylists(owner);
+        int totalDuration = iPlaylistDAO.getTotalDuration(owner);
+
+        if (playlists == null) {
+            return Response.status(404).build();
+        }
+
+        PlaylistsDTO playlistsDTO = new PlaylistsDTO();
+        playlistsDTO.playlists = playlists;
+        playlistsDTO.length = totalDuration;
+
+        return Response.status(200).entity(playlistsDTO).build();
     }
 
     @POST
@@ -113,7 +126,6 @@ public class Spotitube {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addPlaylist(@QueryParam("token") String owner, Playlist2 playlist) {
 
-//        playlist.owner = playlist.isOwner().toString();
         ArrayList<Playlist> playlists = iPlaylistDAO.addPlaylist(playlist.name, owner);
 
         if (playlists == null) {
