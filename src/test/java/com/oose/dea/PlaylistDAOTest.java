@@ -92,7 +92,7 @@ public class PlaylistDAOTest {
 //
 //            playlistDAO.setDataSource(dataSource);
 //            int playlistId = 1;
-////            ArrayList<Playlist> playlists = playlistDAO.getPlaylists();
+//            ArrayList<Playlist> playlists = playlistDAO.deletePlaylistById(playlistId, "token");
 //
 ////            verify(dataSource).getConnection();
 ////            verify(connection).prepareStatement(expectedSQL);
@@ -166,7 +166,29 @@ public class PlaylistDAOTest {
 
 //    @Test
 //    public void addPlaylistTest(){
+//        try {
 //
+//            String expectedSQL = "insert into playlist(name, owner) values(?, ?)";
+//
+//            when(dataSource.getConnection()).thenReturn(connection);
+//            when(connection.prepareStatement(expectedSQL)).thenReturn(preparedStatement);
+//            when(preparedStatement.executeUpdate()).thenReturn(1);
+////            when(resultSet.next()).thenReturn(false);
+//
+//            playlistDAO.setDataSource(dataSource);
+//
+//            ArrayList<Playlist> playlists = playlistDAO.addPlaylist("name", "token");
+//
+//            verify(dataSource).getConnection();
+//            verify(connection).prepareStatement(expectedSQL);
+//            verify(preparedStatement).setString(1, "name");
+//            verify(preparedStatement).setString(2, "owner");
+//
+//            verify(preparedStatement).executeUpdate();
+//
+//        } catch (Exception e){
+//            fail(e.getMessage());
+//        }
 //    }
 
     @Test

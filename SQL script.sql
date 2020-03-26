@@ -10,6 +10,7 @@ insert into track(title, performer, duration, album) values ("Playing God", "Par
 insert into track(title, performer, duration, album) values ("Brick By Boring Brick", "Paramore", 253, "Brand New Eyes");
 insert into track(title, performer, duration, album) values ("Dance, Dance", "Fall Out Boy", 253, "From Under the Cork Tree");
 insert into track(title, performer, duration, album, playlistId) values ("Welcome to the Black Parade", "My Chemical Romance", 253, "The Black Parade", 2);
+insert into track(title, performer, duration, album, publicationDate) values ("Welcome to the Black Parade 3", "My Chemical Romance", 253, "The Black Parade", curdate());
 
 insert into track(title, performer, duration, album) values ("New song 1", "Paramore", 339, "Paramore");
 insert into track(title, performer, duration, album) values ("New song 2", "Paramore", 339, "Paramore");
@@ -43,6 +44,8 @@ insert into playlisttracks values (17, 1);
 insert into playlisttracks values (18, 2);
 insert into playlisttracks values (18, 1);
 
+insert into user(name, password, token) values ("Alex", "password1234", "1234-1234");
+insert into user(name, password, token) values ("Alex2", "password1234", "1234-1234");
 drop table playlisttracks;
 
 CREATE TABLE playlisttracks (
@@ -51,12 +54,17 @@ CREATE TABLE playlisttracks (
     foreign key (trackId) references track(id) on update cascade on delete cascade,
     foreign key (playlistId) references playlist(id) on update cascade on delete cascade
     );
+    
+ALTER TABLE playlist
+ADD CONSTRAINT FK_playlistOwner
+FOREIGN KEY (owner) REFERENCES user(id);
 
 delete from playlist where id = 4;
 
 delete from playlist where id = 14;
 select * from playlist;
 select * from track;
+select * from user;
 select * from playlisttracks;
 select * from track where playlistId != 3;
 delete from track where playlistId = null;
@@ -78,6 +86,7 @@ select t.*
 from playlisttracks pt inner join track t on pt.trackId = t.id
 where pt.playlistId = 3;
 
+update playlist set owner = 3 where owner = 2;
 select t.*
 from playlisttracks pt
 inner join track t on pt.trackId = t.id 
@@ -89,3 +98,9 @@ update playlist set name = "123" where id = 17;
 update track set playlistId = 2 where playlistId = NULL;
 
 delete from playlisttracks where playlistId = 4 AND trackId = 16;
+
+insert into playlist(name, owner) values ("test playlist", "469ee805-2bb5-46ac-8830-79ae9e9886f1");
+select id from user where token = "469ee805-2bb5-46ac-8830-79ae9e9886f1";
+
+alter table playlist drop foreign key `FK_playlistOwner`;
+alter table playlist add foreign key (owner) references user(token);

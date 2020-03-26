@@ -12,6 +12,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
+
+import static javax.faces.component.UIInput.isEmpty;
 
 @Default
 public class PlaylistDAO implements IPlaylistDAO{
@@ -70,11 +73,6 @@ public class PlaylistDAO implements IPlaylistDAO{
                 Playlist playlist = new Playlist();
                 playlist.setId(resultSet.getInt("id"));
                 playlist.setName(resultSet.getString("name"));
-                System.out.println("owner from database: " + resultSet.getString("owner"));
-//                if (owner == resultSet.getString("owner")){
-//                    playlist.setOwner(true);
-//                }
-//                else playlist.setOwner(false);
                 playlist.setOwner(resultSet.getString("owner"));
                 playlist.setTracks(resultSet.getString("tracks"));
 
@@ -92,16 +90,34 @@ public class PlaylistDAO implements IPlaylistDAO{
     @Override
     public ArrayList<Playlist> deletePlaylistById(int playlistId, String owner) {
 
+        ArrayList<Playlist> playlists = new ArrayList<Playlist>();
         try (Connection connection = dataSource.getConnection()) {
             String sql = "delete from playlist where id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, playlistId);
             preparedStatement.executeUpdate();
 
+            String sql2 = "select * from playlist";
+            PreparedStatement preparedStatement2 = connection.prepareStatement(sql2);
+            ResultSet resultSet = preparedStatement2.executeQuery();
+
+            while(resultSet.next()){
+
+                Playlist playlist = new Playlist();
+                playlist.setId(resultSet.getInt("id"));
+                playlist.setName(resultSet.getString("name"));
+
+                playlist.setOwner(resultSet.getString("owner"));
+                playlist.setTracks(resultSet.getString("tracks"));
+
+                playlists.add(playlist);
+
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return getPlaylists(owner);
+        return playlists;
     }
 
     @Override

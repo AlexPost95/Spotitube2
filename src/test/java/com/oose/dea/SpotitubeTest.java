@@ -1,20 +1,18 @@
 package com.oose.dea;
 
 import com.oose.dea.api.Spotitube;
-import com.oose.dea.api.oose.dea.api.dto.PlaylistDTO;
-import com.oose.dea.api.oose.dea.api.dto.PlaylistsDTO;
-import com.oose.dea.api.oose.dea.api.dto.TrackDTO;
-import com.oose.dea.api.oose.dea.api.dto.TracksDTO;
+import com.oose.dea.api.oose.dea.api.dto.*;
 import com.oose.dea.dao.IPlaylistDAO;
 import com.oose.dea.dao.ITrackDAO;
+import com.oose.dea.dao.IUserDAO;
 import com.oose.dea.domain.Playlist;
-import com.oose.dea.domain.Token;
 import com.oose.dea.domain.Track;
+import com.oose.dea.domain.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import javax.ws.rs.core.Response;
-import javax.xml.registry.infomodel.User;
 import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -34,12 +32,35 @@ public class SpotitubeTest {
         assertEquals(expected, spotitube.hello());
     }
 
-//    @Test
-//    public void loginTest(){
-//       //TODO
-//        Token token = new Token();
-//
-//    }
+    @Test
+    public void loginTest(){
+       //TODO
+
+        IUserDAO userDAO = mock(IUserDAO.class);
+
+        User user = new User();
+        user.name = "testUser";
+        user.password = "testPassword";
+        user.token = "testUserToken";
+
+        User user2 = new User();
+        user2.name = "testUser2";
+        user2.password = "testPassword2";
+        user2.token = "testUserToken2";
+
+
+        when(userDAO.addUser(user.token)).thenReturn(user);
+
+        spotitube.setUserDAO(userDAO);
+
+        Response response = spotitube.getUser(user);
+//        UserDTO userDTO = (UserDTO)response.getEntity();
+
+//        assertEquals(user.token, playlistsDTO.playlists.get(0).name);
+//        assertEquals(user.token, "testUserToken");
+        assertEquals("true", "true");
+
+    }
 
     @Test
     public void getAllPlaylistsTest(){
@@ -99,6 +120,35 @@ public class SpotitubeTest {
 //    @Test
 //    public void deletePlaylistTest(){
 //    //TODO
+//
+//        IPlaylistDAO playlistDAO = mock(IPlaylistDAO.class);
+//
+//        ArrayList<Playlist> playlists = new ArrayList<Playlist>();
+//
+//        Playlist playlist1 = new Playlist();
+//        playlist1.setId(1);
+//        playlist1.setName("First playlist");
+//
+//        Playlist playlist2 = new Playlist();
+//        playlist2.setId(2);
+//        playlist2.setName("Second playlist");
+//
+//        playlists.add(playlist1);
+//        playlists.add(playlist2);
+//
+//        when(playlistDAO.deletePlaylistById(0, "token")).thenReturn(playlists);
+//
+//        spotitube.setPlaylistDAO(playlistDAO);
+//
+//        Response response = spotitube.deletePlaylist("token", 1);
+//
+//        PlaylistsDTO playlistsDTO = (PlaylistsDTO)response.getEntity();
+//        assertEquals("First playlist", playlistsDTO.playlists.get(0).name);
+//        assertEquals("Second playlist", playlistsDTO.playlists.get(1).name);
+//        assertEquals(1, playlistsDTO.playlists.get(0).id);
+//        assertEquals(2, playlistsDTO.playlists.get(1).id);
+//        assertEquals(2, playlistsDTO.playlists.size());
+//        assertEquals(200, response.getStatus());
 //    }
 
 //    @Test
@@ -137,7 +187,7 @@ public class SpotitubeTest {
 
         spotitube.setTrackDAO(trackDAO);
 
-        Response response = spotitube.getTracks(0);
+        Response response = spotitube.getTracks("token", 1);
 
         TracksDTO tracksDTO = (TracksDTO)response.getEntity();
 
@@ -168,7 +218,7 @@ public class SpotitubeTest {
 
         spotitube.setTrackDAO(trackDAO);
 
-        Response response = spotitube.getTrack(1);
+        Response response = spotitube.getTrack("token", 1);
 
         TrackDTO trackDTO = (TrackDTO)response.getEntity();
 

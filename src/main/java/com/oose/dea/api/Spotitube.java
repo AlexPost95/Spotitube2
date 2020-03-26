@@ -71,8 +71,11 @@ public class Spotitube {
         ArrayList<Playlist> playlists = iPlaylistDAO.getPlaylists(owner);
         int totalDuration = iPlaylistDAO.getTotalDuration(owner);
 
+        if (owner == null) {
+            return Response.status(403).build();
+        }
         if (playlists == null) {
-            return Response.status(404).build();
+            return Response.status(400).build();
         }
 
         PlaylistsDTO playlistsDTO = new PlaylistsDTO();
@@ -88,8 +91,12 @@ public class Spotitube {
     public Response getPlaylist(@QueryParam("token") String owner, @PathParam("id") int id){
 
         Playlist playlist = iPlaylistDAO.getPlaylistById(id, owner);
+
+        if (owner == null) {
+            return Response.status(403).build();
+        }
         if (playlist == null) {
-            return Response.status(404).build();
+            return Response.status(400).build();
         }
 
         PlaylistDTO playlistDTO = new PlaylistDTO();
@@ -109,9 +116,13 @@ public class Spotitube {
         ArrayList<Playlist> playlists = iPlaylistDAO.getPlaylists(owner);
         int totalDuration = iPlaylistDAO.getTotalDuration(owner);
 
-        if (playlists == null) {
-            return Response.status(404).build();
+        if (owner == null) {
+            return Response.status(403).build();
         }
+        if (playlists == null) {
+            return Response.status(400).build();
+        }
+
 
         PlaylistsDTO playlistsDTO = new PlaylistsDTO();
         playlistsDTO.playlists = playlists;
@@ -128,15 +139,18 @@ public class Spotitube {
 
         ArrayList<Playlist> playlists = iPlaylistDAO.addPlaylist(playlist.name, owner);
 
+        if (owner == null) {
+            return Response.status(403).build();
+        }
         if (playlists == null) {
-            return Response.status(404).build();
+            return Response.status(400).build();
         }
 
         PlaylistsDTO playlistsDTO = new PlaylistsDTO();
         playlistsDTO.playlists = playlists;
         playlistsDTO.length = iPlaylistDAO.getTotalDuration(owner);
 
-        return Response.status(200).entity(playlistsDTO).build();
+        return Response.status(201).entity(playlistsDTO).build();
     }
 
     @PUT
@@ -147,8 +161,11 @@ public class Spotitube {
 
         ArrayList<Playlist> playlists = iPlaylistDAO.updatePlaylistById(playlist.id, playlist.name, owner);
 
+        if (owner == null) {
+            return Response.status(403).build();
+        }
         if (playlists == null) {
-            return Response.status(404).build();
+            return Response.status(400).build();
         }
 
         PlaylistsDTO playlistsDTO = new PlaylistsDTO();
@@ -161,12 +178,15 @@ public class Spotitube {
     @GET
     @Path("tracks")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getTracks(@QueryParam("forPlaylist") int forPlaylist){
+    public Response getTracks(@QueryParam("token") String owner, @QueryParam("forPlaylist") int forPlaylist){
 
         ArrayList<Track> tracks = iTrackDAO.getTracks(forPlaylist);
 
+        if (owner == null) {
+            return Response.status(403).build();
+        }
         if (tracks == null) {
-            return Response.status(404).build();
+            return Response.status(400).build();
         }
 
         TracksDTO tracksDTO = new TracksDTO();
@@ -178,12 +198,15 @@ public class Spotitube {
     @GET
     @Path("tracks/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getTrack(@PathParam("id") int id){
+    public Response getTrack(@QueryParam("token") String owner, @PathParam("id") int id){
 
         Track track = iTrackDAO.getTrackById(id);
 
+        if (owner == null) {
+            return Response.status(403).build();
+        }
         if (track == null) {
-            return Response.status(404).build();
+            return Response.status(400).build();
         }
 
         TrackDTO trackDTO = new TrackDTO();
@@ -208,8 +231,11 @@ public class Spotitube {
 
         ArrayList<Track> tracks = iPlaylistDAO.getTracksByPlaylistId(id, owner);
 
+        if (owner == null) {
+            return Response.status(403).build();
+        }
         if (tracks == null) {
-            return Response.status(404).build();
+            return Response.status(400).build();
         }
 
         TracksDTO tracksDTO = new TracksDTO();
@@ -220,8 +246,14 @@ public class Spotitube {
 
     @DELETE
     @Path("/playlists/{playlistId}/tracks/{trackId}")
-    public void deleteTrackFromPlaylist(@QueryParam("token") String owner, @PathParam("playlistId") int playlistId, @PathParam("trackId") int trackId) {
+    public Response deleteTrackFromPlaylist(@QueryParam("token") String owner, @PathParam("playlistId") int playlistId, @PathParam("trackId") int trackId) {
+
+        if (owner == null) {
+            return Response.status(403).build();
+        }
+
         iPlaylistDAO.deleteSongFromPlaylist(playlistId, trackId, owner);
+        return Response.status(200).build();
     }
 
     @POST
@@ -233,13 +265,13 @@ public class Spotitube {
         ArrayList<Track> tracks = iPlaylistDAO.addTrackToPlaylist(playlistId, track.id, owner);
 
         if (tracks == null) {
-            return Response.status(404).build();
+            return Response.status(400).build();
         }
 
         TracksDTO tracksDTO = new TracksDTO();
         tracksDTO.tracks = tracks;
 
-        return Response.status(200).entity(tracksDTO).build();
+        return Response.status(201).entity(tracksDTO).build();
     }
 
     @Inject
