@@ -1,6 +1,5 @@
 package com.oose.dea;
 
-import com.oose.dea.dao.PlaylistDAO;
 import com.oose.dea.dao.TrackDAO;
 import com.oose.dea.domain.Track;
 import org.junit.jupiter.api.BeforeEach;

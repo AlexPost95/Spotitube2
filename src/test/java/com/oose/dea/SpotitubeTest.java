@@ -8,14 +8,13 @@ import com.oose.dea.api.oose.dea.api.dto.TracksDTO;
 import com.oose.dea.dao.IPlaylistDAO;
 import com.oose.dea.dao.ITrackDAO;
 import com.oose.dea.domain.Playlist;
+import com.oose.dea.domain.Token;
 import com.oose.dea.domain.Track;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import javax.ws.rs.core.Response;
-
+import javax.xml.registry.infomodel.User;
 import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -35,10 +34,12 @@ public class SpotitubeTest {
         assertEquals(expected, spotitube.hello());
     }
 
-    @Test
-    public void loginTest(){
-       //TODO
-    }
+//    @Test
+//    public void loginTest(){
+//       //TODO
+//        Token token = new Token();
+//
+//    }
 
     @Test
     public void getAllPlaylistsTest(){
@@ -58,11 +59,11 @@ public class SpotitubeTest {
         playlists.add(playlist1);
         playlists.add(playlist2);
 
-        when(playlistDAO.getPlaylists()).thenReturn(playlists);
+        when(playlistDAO.getPlaylists("token")).thenReturn(playlists);
 
         spotitube.setPlaylistDAO(playlistDAO);
 
-        Response response = spotitube.getPlaylists();
+        Response response = spotitube.getPlaylists("token");
 
         PlaylistsDTO playlistsDTO = (PlaylistsDTO)response.getEntity();
         assertEquals("First playlist", playlistsDTO.playlists.get(0).name);
@@ -82,11 +83,11 @@ public class SpotitubeTest {
         playlist.setName("First playlist");
         playlist.setTracks("");
 
-        when(playlistDAO.getPlaylistById(1)).thenReturn(playlist);
+        when(playlistDAO.getPlaylistById(1, "token")).thenReturn(playlist);
 
         spotitube.setPlaylistDAO(playlistDAO);
 
-        Response response = spotitube.getPlaylist(1);
+        Response response = spotitube.getPlaylist("token", 1);
 
         PlaylistDTO playlistDTO = (PlaylistDTO)response.getEntity();
 
@@ -95,20 +96,20 @@ public class SpotitubeTest {
         assertEquals(200, response.getStatus());
     }
 
-    @Test
-    public void deletePlaylistTest(){
-    //TODO
-    }
+//    @Test
+//    public void deletePlaylistTest(){
+//    //TODO
+//    }
 
-    @Test
-    public void addPlaylistTest(){
-    //TODO
-    }
+//    @Test
+//    public void addPlaylistTest(){
+//    //TODO
+//    }
 
-    @Test
-    public void updatePlaylistTest(){
-    //TODO
-    }
+//    @Test
+//    public void updatePlaylistTest(){
+//    //TODO
+//    }
 
     @Test
     public void getTracksTest(){
@@ -179,19 +180,19 @@ public class SpotitubeTest {
         assertEquals(200, response.getStatus());
     }
 
-    @Test
-    public void getTracksByPlaylistTest(){
-    //TODO
-    }
+//    @Test
+//    public void getTracksByPlaylistTest(){
+//    //TODO
+//    }
 
-    @Test
-    public void deleteTrackFromPlaylistTest(){
-    //TODO
-    }
+//    @Test
+//    public void deleteTrackFromPlaylistTest(){
+//    //TODO
+//    }
 
-    @Test
-    public void addTrackToPlaylistTest(){
-
-    }
+//    @Test
+//    public void addTrackToPlaylistTest(){
+//
+//    }
 
 }

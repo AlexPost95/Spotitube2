@@ -45,7 +45,7 @@ public class PlaylistDAOTest {
 
             playlistDAO.setDataSource(dataSource);
             int playlistId = 1;
-            Playlist playlist = playlistDAO.getPlaylistById(playlistId);
+            Playlist playlist = playlistDAO.getPlaylistById(playlistId, "token");
 
             verify(dataSource).getConnection();
             verify(connection).prepareStatement(expectedSQL);
@@ -68,7 +68,7 @@ public class PlaylistDAOTest {
             when(resultSet.next()).thenReturn(false);
 
             playlistDAO.setDataSource(dataSource);
-            ArrayList<Playlist> playlists = playlistDAO.getPlaylists();
+            ArrayList<Playlist> playlists = playlistDAO.getPlaylists("token");
 
             verify(dataSource).getConnection();
             verify(connection).prepareStatement(expectedSQL);
@@ -121,7 +121,7 @@ public class PlaylistDAOTest {
 
             playlistDAO.setDataSource(dataSource);
             int playlistId = 1;
-            ArrayList<Track> tracks = playlistDAO.getTracksByPlaylistId(playlistId);
+            ArrayList<Track> tracks = playlistDAO.getTracksByPlaylistId(playlistId, "token");
 
             verify(dataSource).getConnection();
             verify(connection).prepareStatement(expectedSQL);
@@ -148,7 +148,7 @@ public class PlaylistDAOTest {
             when(resultSet.next()).thenReturn(false);
 
             playlistDAO.setDataSource(dataSource);
-            ArrayList<Track> tracks = playlistDAO.getAllTracks();
+            ArrayList<Track> tracks = playlistDAO.getAllTracks("token");
 
             verify(dataSource).getConnection();
             verify(connection).prepareStatement(expectedSQL);
@@ -181,7 +181,7 @@ public class PlaylistDAOTest {
             when(resultSet.next()).thenReturn(false);
 
             playlistDAO.setDataSource(dataSource);
-            int duration = playlistDAO.getTotalDuration();
+            int duration = playlistDAO.getTotalDuration("token");
 
             verify(dataSource).getConnection();
             verify(connection).prepareStatement(expectedSQL);
