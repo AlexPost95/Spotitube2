@@ -1,6 +1,5 @@
 package com.oose.dea.dao;
 
-import com.oose.dea.domain.Playlist;
 import com.oose.dea.domain.User;
 
 import javax.annotation.Resource;
@@ -21,31 +20,25 @@ public class UserDAO implements IUserDAO{
             return null;
         }
 
+        User user = new User();
         try (Connection connection = dataSource.getConnection()) {
             String sql = "select * from user where id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-//            while(resultSet.next()){
-//
-//                Playlist playlist = new Playlist();
-//                User user = new User();
-//                user.setName(resultSet.getString("name"));
-//                user.setPassword(resultSet.getString("password"));
-//
-//                playlist.setId(resultSet.getInt("id"));
-//                playlist.setName(resultSet.getString("name"));
-//                playlist.setOwner(resultSet.getString("owner"));
-//                playlist.setTracks(resultSet.getString("tracks"));
-//
-//            }
+            while(resultSet.next()){
+
+                user.setName(resultSet.getString("name"));
+                user.setPassword(resultSet.getString("password"));
+                user.setToken(resultSet.getString("token"));
+            }
 
         } catch (SQLException e){
             e.printStackTrace();
             return null;
         }
-        return null;
+        return user;
     }
 
     @Override

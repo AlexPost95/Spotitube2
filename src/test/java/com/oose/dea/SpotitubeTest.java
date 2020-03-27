@@ -6,6 +6,7 @@ import com.oose.dea.dao.IPlaylistDAO;
 import com.oose.dea.dao.ITrackDAO;
 import com.oose.dea.dao.IUserDAO;
 import com.oose.dea.domain.Playlist;
+import com.oose.dea.domain.Playlist2;
 import com.oose.dea.domain.Track;
 import com.oose.dea.domain.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,12 +55,7 @@ public class SpotitubeTest {
         spotitube.setUserDAO(userDAO);
 
         Response response = spotitube.getUser(user);
-//        UserDTO userDTO = (UserDTO)response.getEntity();
-
-//        assertEquals(user.token, playlistsDTO.playlists.get(0).name);
-//        assertEquals(user.token, "testUserToken");
-        assertEquals("true", "true");
-
+        assertEquals("testUser", user.getName());
     }
 
     /**

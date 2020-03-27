@@ -91,31 +91,30 @@ public class PlaylistDAOTest {
     /**
      * Test for deleting a playlist
      */
-//    //TODO
-//    @Test
-//    public void deletePlaylistTest(){
-//        try {
-//            String expectedSQL = "delete from playlist where id = ?";
-//
-//            when(dataSource.getConnection()).thenReturn(connection);
-//            when(connection.prepareStatement(expectedSQL)).thenReturn(preparedStatement);
-//            when(preparedStatement.executeQuery()).thenReturn(resultSet);
-//            when(resultSet.next()).thenReturn(false);
-//
-//            playlistDAO.setDataSource(dataSource);
-//            int playlistId = 1;
-//            ArrayList<Playlist> playlists = playlistDAO.deletePlaylistById(playlistId, "token");
-//
-////            verify(dataSource).getConnection();
-////            verify(connection).prepareStatement(expectedSQL);
-////            verify(preparedStatement).setInt(1, playlistId);
-////            verify(preparedStatement).executeQuery();
-//
-//        } catch (Exception e){
-//            fail(e.getMessage());
-//        }
-//    }
-//
+    @Test
+    public void deletePlaylistTest(){
+        try {
+            String expectedSQL = "delete from playlist where id = ?";
+
+            when(dataSource.getConnection()).thenReturn(connection);
+            when(connection.prepareStatement(expectedSQL)).thenReturn(preparedStatement);
+            when(preparedStatement.executeUpdate()).thenReturn(1);
+            when(resultSet.next()).thenReturn(false);
+
+            playlistDAO.setDataSource(dataSource);
+            int playlistId = 1;
+            playlistDAO.deletePlaylistById(playlistId, "token");
+
+            verify(dataSource).getConnection();
+            verify(connection).prepareStatement(expectedSQL);
+            verify(preparedStatement).setInt(1, playlistId);
+            verify(preparedStatement).executeUpdate();
+
+        } catch (Exception e){
+            fail(e.getMessage());
+        }
+    }
+
 
     /**
      * Test for updating a playlist

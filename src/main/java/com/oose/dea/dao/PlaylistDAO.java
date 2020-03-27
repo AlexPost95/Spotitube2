@@ -76,7 +76,7 @@ public class PlaylistDAO implements IPlaylistDAO{
     }
 
     @Override
-    public ArrayList<Playlist> deletePlaylistById(int playlistId, String owner) {
+    public void deletePlaylistById(int playlistId, String owner) {
 
         ArrayList<Playlist> playlists = new ArrayList<Playlist>();
         try (Connection connection = dataSource.getConnection()) {
@@ -88,7 +88,6 @@ public class PlaylistDAO implements IPlaylistDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return getPlaylists(owner);
     }
 
     @Override

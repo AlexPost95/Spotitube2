@@ -28,7 +28,7 @@ public interface IPlaylistDAO {
      * @param owner the token of the owner
      * @return a list of all updated playlists
      */
-    ArrayList<Playlist> deletePlaylistById(int id, String owner);
+    void deletePlaylistById(int id, String owner);
 
     /**
      * Add a new playlist
