@@ -154,7 +154,8 @@ public class Spotitube {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addPlaylist(@QueryParam("token") String owner, Playlist2 playlist) {
 
-        ArrayList<Playlist> playlists = iPlaylistDAO.addPlaylist(playlist.name, owner);
+        iPlaylistDAO.addPlaylist(playlist.name, owner);
+        ArrayList<Playlist> playlists = iPlaylistDAO.getPlaylists(owner);
 
         if (owner == null) {
             return Response.status(403).build();
@@ -301,8 +302,13 @@ public class Spotitube {
             return Response.status(403).build();
         }
 
-        iPlaylistDAO.deleteSongFromPlaylist(playlistId, trackId, owner);
-        return Response.status(200).build();
+        iPlaylistDAO.deleteTrackFromPlaylist(playlistId, trackId, owner);
+        ArrayList<Track> tracks = iPlaylistDAO.getAllTracks(owner);
+
+        TracksDTO tracksDTO = new TracksDTO();
+        tracksDTO.tracks = tracks;
+
+        return Response.status(200).entity(tracksDTO).build();
     }
 
     /**
@@ -318,7 +324,8 @@ public class Spotitube {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addTrackToPlaylist(@QueryParam("token") String owner, @PathParam("playlistId") int playlistId, Track track) {
 
-        ArrayList<Track> tracks = iPlaylistDAO.addTrackToPlaylist(playlistId, track.id, owner);
+        iPlaylistDAO.addTrackToPlaylist(playlistId, track.id, owner);
+        ArrayList<Track> tracks = iPlaylistDAO.getTracksByPlaylistId(playlistId, owner);
 
         if (tracks == null) {
             return Response.status(400).build();

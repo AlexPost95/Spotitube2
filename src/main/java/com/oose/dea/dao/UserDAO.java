@@ -42,7 +42,7 @@ public class UserDAO implements IUserDAO{
     }
 
     @Override
-    public User addUser(String name, String password, String token){
+    public void addUser(String name, String password, String token){
 
         try (Connection connection = dataSource.getConnection()) {
             String sql = "insert into user(name, password, token) values(?, ?, ?)";
@@ -51,13 +51,15 @@ public class UserDAO implements IUserDAO{
             preparedStatement.setString(2, password);
             preparedStatement.setString(3, token);
 
-            User user = new User();
             int resultSet = preparedStatement.executeUpdate();
 
-            return user;
         } catch (SQLException e){
             e.printStackTrace();
-            return null;
         }
     }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
 }

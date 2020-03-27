@@ -91,7 +91,7 @@ public class PlaylistDAO implements IPlaylistDAO{
     }
 
     @Override
-    public ArrayList<Playlist> updatePlaylistById(int playlistId, String name, String owner) {
+    public void updatePlaylistById(int playlistId, String name, String owner) {
 
         try (Connection connection = dataSource.getConnection()) {
             String sql = "update playlist set name = ? where id = ?";
@@ -103,8 +103,6 @@ public class PlaylistDAO implements IPlaylistDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return getPlaylists(owner);
-
     }
 
     @Override
@@ -145,7 +143,7 @@ public class PlaylistDAO implements IPlaylistDAO{
     }
 
     @Override
-    public ArrayList<Track> deleteSongFromPlaylist(int playlistId, int trackId, String owner) {
+    public void deleteTrackFromPlaylist(int playlistId, int trackId, String owner) {
 
         try (Connection connection = dataSource.getConnection()) {
             String sql = "delete from playlisttracks where playlistId = ? AND trackId = ?";
@@ -157,7 +155,6 @@ public class PlaylistDAO implements IPlaylistDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return getAllTracks(owner);
     }
 
     @Override
@@ -192,7 +189,7 @@ public class PlaylistDAO implements IPlaylistDAO{
     }
 
     @Override
-    public ArrayList<Track> addTrackToPlaylist(int playlistId, int trackId, String owner) {
+    public void addTrackToPlaylist(int playlistId, int trackId, String owner) {
         try (Connection connection = dataSource.getConnection()) {
             String sql = "insert into playlisttracks values (?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -202,13 +199,11 @@ public class PlaylistDAO implements IPlaylistDAO{
 
         } catch (SQLException e){
             e.printStackTrace();
-            return null;
         }
-        return getTracksByPlaylistId(playlistId, owner);
     }
 
     @Override
-    public ArrayList<Playlist> addPlaylist(String name, String owner) {
+    public void addPlaylist(String name, String owner) {
 
         try (Connection connection = dataSource.getConnection()) {
             String sql = "insert into playlist(name, owner) values(?, ?)";
@@ -222,7 +217,6 @@ public class PlaylistDAO implements IPlaylistDAO{
             e.printStackTrace();
         }
 
-        return getPlaylists(owner);
     }
 
     @Override

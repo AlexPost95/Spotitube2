@@ -119,10 +119,31 @@ public class PlaylistDAOTest {
     /**
      * Test for updating a playlist
      */
-//    @Test
-//    public void updatePlaylistByIdTest(){
-//
-//    }
+    @Test
+    public void updatePlaylistByIdTest(){
+        try {
+            String expectedSQL = "update playlist set name = ? where id = ?";
+
+            when(dataSource.getConnection()).thenReturn(connection);
+            when(connection.prepareStatement(expectedSQL)).thenReturn(preparedStatement);
+            when(preparedStatement.executeUpdate()).thenReturn(1);
+            when(resultSet.next()).thenReturn(false);
+
+            playlistDAO.setDataSource(dataSource);
+            int playlistId = 1;
+            String name = "new playlist name";
+            playlistDAO.updatePlaylistById(playlistId, name, "token");
+
+            verify(dataSource).getConnection();
+            verify(connection).prepareStatement(expectedSQL);
+            verify(preparedStatement).setString(1, name);
+            verify(preparedStatement).setInt(2, playlistId);
+            verify(preparedStatement).executeUpdate();
+
+        } catch (Exception e){
+            fail(e.getMessage());
+        }
+    }
 
     /**
      * Test for retrieving all tracks that belong to a specific playlist
@@ -154,8 +175,29 @@ public class PlaylistDAOTest {
      * Test for deleting a song from a playlist
      */
     @Test
-    public void deleteSongFromPlaylistTest(){
+    public void deleteTrackFromPlaylistTest(){
+        try {
+            String expectedSQL = "delete from playlisttracks where playlistId = ? AND trackId = ?";
 
+            when(dataSource.getConnection()).thenReturn(connection);
+            when(connection.prepareStatement(expectedSQL)).thenReturn(preparedStatement);
+            when(preparedStatement.executeUpdate()).thenReturn(1);
+            when(resultSet.next()).thenReturn(false);
+
+            playlistDAO.setDataSource(dataSource);
+            int playlistId = 1;
+            int trackId = 1;
+            playlistDAO.deleteTrackFromPlaylist(playlistId, trackId, "token");
+
+            verify(dataSource).getConnection();
+            verify(connection).prepareStatement(expectedSQL);
+            verify(preparedStatement).setInt(1, playlistId);
+            verify(preparedStatement).setInt(2, trackId);
+            verify(preparedStatement).executeUpdate();
+
+        } catch (Exception e){
+            fail(e.getMessage());
+        }
     }
 
     /**
@@ -186,40 +228,62 @@ public class PlaylistDAOTest {
     /**
      * Test for adding a track to a playlist
      */
-//    @Test
-//    public void addTrackToPlaylistTest(){
-//
-//    }
+    @Test
+    public void addTrackToPlaylistTest(){
+        try {
+            String expectedSQL = "insert into playlisttracks values (?, ?)";
+
+            when(dataSource.getConnection()).thenReturn(connection);
+            when(connection.prepareStatement(expectedSQL)).thenReturn(preparedStatement);
+            when(preparedStatement.executeUpdate()).thenReturn(1);
+            when(resultSet.next()).thenReturn(false);
+
+            playlistDAO.setDataSource(dataSource);
+            int playlistId = 1;
+            int trackId = 1;
+            playlistDAO.addTrackToPlaylist(trackId, playlistId, "token");
+
+            verify(dataSource).getConnection();
+            verify(connection).prepareStatement(expectedSQL);
+            verify(preparedStatement).setInt(1, trackId);
+            verify(preparedStatement).setInt(2, playlistId);
+            verify(preparedStatement).executeUpdate();
+
+        } catch (Exception e){
+            fail(e.getMessage());
+        }
+
+    }
 
     /**
      * Test for adding a playlist
      */
-//    @Test
-//    public void addPlaylistTest(){
-//        try {
-//
-//            String expectedSQL = "insert into playlist(name, owner) values(?, ?)";
-//
-//            when(dataSource.getConnection()).thenReturn(connection);
-//            when(connection.prepareStatement(expectedSQL)).thenReturn(preparedStatement);
-//            when(preparedStatement.executeUpdate()).thenReturn(1);
-////            when(resultSet.next()).thenReturn(false);
-//
-//            playlistDAO.setDataSource(dataSource);
-//
-//            ArrayList<Playlist> playlists = playlistDAO.addPlaylist("name", "token");
-//
-//            verify(dataSource).getConnection();
-//            verify(connection).prepareStatement(expectedSQL);
-//            verify(preparedStatement).setString(1, "name");
-//            verify(preparedStatement).setString(2, "owner");
-//
-//            verify(preparedStatement).executeUpdate();
-//
-//        } catch (Exception e){
-//            fail(e.getMessage());
-//        }
-//    }
+    @Test
+    public void addPlaylistTest(){
+        try {
+
+            String expectedSQL = "insert into playlist(name, owner) values(?, ?)";
+
+            when(dataSource.getConnection()).thenReturn(connection);
+            when(connection.prepareStatement(expectedSQL)).thenReturn(preparedStatement);
+            when(preparedStatement.executeUpdate()).thenReturn(1);
+            when(resultSet.next()).thenReturn(false);
+
+            playlistDAO.setDataSource(dataSource);
+
+            playlistDAO.addPlaylist("name", "token");
+
+            verify(dataSource).getConnection();
+            verify(connection).prepareStatement(expectedSQL);
+            verify(preparedStatement).setString(1, "name");
+            verify(preparedStatement).setString(2, "token");
+
+            verify(preparedStatement).executeUpdate();
+
+        } catch (Exception e){
+            fail(e.getMessage());
+        }
+    }
 
     /**
      * Test for retrieving the lengt of all songs that are in playlist

@@ -36,7 +36,7 @@ public interface IPlaylistDAO {
      * @param owner the token of the owner
      * @return a list of all updated playlists
      */
-    ArrayList<Playlist> addPlaylist(String name, String owner);
+    void addPlaylist(String name, String owner);
 
     /**
      * Get the total duration of all tracks that are in a playlist
@@ -52,7 +52,7 @@ public interface IPlaylistDAO {
      * @param owner the token of the owner
      * @return a list of all updated playlists
      */
-    ArrayList<Playlist> updatePlaylistById(int playlistId, String name, String owner);
+    void updatePlaylistById(int playlistId, String name, String owner);
 
     /**
      * Get all tracks that are part of a specific playlist
@@ -69,7 +69,7 @@ public interface IPlaylistDAO {
      * @param owner the token of the owner
      * @return a list of tracks
      */
-    ArrayList<Track> deleteSongFromPlaylist(int playlistId, int trackId, String owner);
+    void deleteTrackFromPlaylist(int playlistId, int trackId, String owner);
 
     /**
      * Get all tracks
@@ -85,5 +85,5 @@ public interface IPlaylistDAO {
      * @param owner the token of the owner
      * @return a list of tracks
      */
-    ArrayList<Track> addTrackToPlaylist(int playlistId, int trackId, String owner);
+    void addTrackToPlaylist(int playlistId, int trackId, String owner);
 }

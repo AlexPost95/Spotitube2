@@ -50,8 +50,6 @@ public class SpotitubeTest {
         user.password = "testPassword";
         user.token = "testUserToken";
 
-        when(userDAO.addUser("name", "password", user.token)).thenReturn(user);
-
         spotitube.setUserDAO(userDAO);
 
         Response response = spotitube.getUser(user);
