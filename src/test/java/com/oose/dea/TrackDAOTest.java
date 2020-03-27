@@ -26,6 +26,9 @@ public class TrackDAOTest {
     PreparedStatement preparedStatement;
     ResultSet resultSet;
 
+    /**
+     * Generating mocks that every test can use
+     */
     @BeforeEach
     public void setup(){
         trackDAO = new TrackDAO();
@@ -35,6 +38,9 @@ public class TrackDAOTest {
         resultSet = mock(ResultSet.class);
     }
 
+    /**
+     * Test for retrieving track with specific id
+     */
     @Test
     public void getTrackByIdTest(){
         try {
@@ -59,6 +65,9 @@ public class TrackDAOTest {
         }
     }
 
+    /**
+     * Test for retrieving all tracks
+     */
     @Test
     public void getTracksTest(){
         try {

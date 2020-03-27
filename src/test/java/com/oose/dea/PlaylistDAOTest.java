@@ -24,6 +24,9 @@ public class PlaylistDAOTest {
         PreparedStatement preparedStatement;
         ResultSet resultSet;
 
+    /**
+     * Creating mocks that every test can use
+     */
         @BeforeEach
         public void setup(){
             playlistDAO = new PlaylistDAO();
@@ -33,6 +36,9 @@ public class PlaylistDAOTest {
             resultSet = mock(ResultSet.class);
         }
 
+    /**
+     * Test retrieving a playlist with specific id
+     */
     @Test
     public void getPlaylistByIdTest(){
         try {
@@ -57,6 +63,9 @@ public class PlaylistDAOTest {
         }
     }
 
+    /**
+     * Test retrieving all playlists
+     */
     @Test
     public void getPlaylistsTest(){
         try {
@@ -79,6 +88,9 @@ public class PlaylistDAOTest {
         }
     }
 
+    /**
+     * Test for deleting a playlist
+     */
 //    //TODO
 //    @Test
 //    public void deletePlaylistTest(){
@@ -104,11 +116,18 @@ public class PlaylistDAOTest {
 //        }
 //    }
 //
+
+    /**
+     * Test for updating a playlist
+     */
 //    @Test
 //    public void updatePlaylistByIdTest(){
 //
 //    }
 
+    /**
+     * Test for retrieving all tracks that belong to a specific playlist
+     */
     @Test
     public void getTracksByPlaylistIdTest(){
         try {
@@ -132,11 +151,17 @@ public class PlaylistDAOTest {
         }
     }
 
+    /**
+     * Test for deleting a song from a playlist
+     */
     @Test
     public void deleteSongFromPlaylistTest(){
 
     }
 
+    /**
+     * Test for retrieving all tracks
+     */
     @Test
     public void getAllTracksTest(){
         try {
@@ -159,11 +184,17 @@ public class PlaylistDAOTest {
         }
     }
 
+    /**
+     * Test for adding a track to a playlist
+     */
 //    @Test
 //    public void addTrackToPlaylistTest(){
 //
 //    }
 
+    /**
+     * Test for adding a playlist
+     */
 //    @Test
 //    public void addPlaylistTest(){
 //        try {
@@ -191,6 +222,9 @@ public class PlaylistDAOTest {
 //        }
 //    }
 
+    /**
+     * Test for retrieving the lengt of all songs that are in playlist
+     */
     @Test
     public void getTotalDurationTest(){
 
