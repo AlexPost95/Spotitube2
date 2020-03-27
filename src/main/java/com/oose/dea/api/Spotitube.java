@@ -13,19 +13,9 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.UUID;
 
-/*
-* DONE:
-* GET /playlists
-* GET /playlists/:id
-* POST /playlists
-* DELETE /playlists/id/tracks/:id
-* PUT /playlists/:id
-* GET /playlists/:id/tracks
-* DELETE /playlists/:id
-* POST/playlists/:id/tracks
-* GET /tracks with queryParam 'forPlaylist'
-* */
-
+/**
+ * REST Api
+ */
 @Path("")
 public class Spotitube {
 
@@ -33,6 +23,10 @@ public class Spotitube {
     private ITrackDAO iTrackDAO;
     public IUserDAO iUserDAO;
 
+    /**
+     * Print a string when accessing /hello. Just to test if the program is running
+     * @return
+     */
     @GET
     @Path("hello")
     @Produces(MediaType.APPLICATION_JSON)
@@ -41,6 +35,11 @@ public class Spotitube {
         return "hello test";
     }
 
+    /**
+     * Log a user in
+     * @param user the user that is sent within the body of the request
+     * @return return a response code and a user token
+     */
     @POST
     @Path("login")
     @Produces(MediaType.APPLICATION_JSON)
@@ -59,6 +58,11 @@ public class Spotitube {
         return Response.status(200).entity(tokenDTO).build();
     }
 
+    /**
+     * Get all playlists
+     * @param owner the user token that comes with every request
+     * @return a response with the list of all playlists
+     */
     @GET
     @Path("playlists")
     @Produces(MediaType.APPLICATION_JSON)
@@ -81,6 +85,12 @@ public class Spotitube {
         return Response.status(200).entity(playlistsDTO).build();
     }
 
+    /**
+     * Get a specific playlist by id
+     * @param owner the user token that comes with every request
+     * @param id the id of the playlist that is being retrieved
+     * @return a response with a single playlist in the body
+     */
     @GET
     @Path("playlists/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -104,6 +114,12 @@ public class Spotitube {
         return Response.status(200).entity(playlistDTO).build();
     }
 
+    /**
+     * Delete a specific playlist
+     * @param owner the user token that comes with every request
+     * @param id the id op the playlist that needs to be deleted
+     * @return a list of all playlists
+     */
     @DELETE
     @Path("playlists/{id}")
     public Response deletePlaylist(@QueryParam("token") String owner, @PathParam("id") int id) {
@@ -119,7 +135,6 @@ public class Spotitube {
             return Response.status(400).build();
         }
 
-
         PlaylistsDTO playlistsDTO = new PlaylistsDTO();
         playlistsDTO.playlists = playlists;
         playlistsDTO.length = totalDuration;
@@ -127,6 +142,12 @@ public class Spotitube {
         return Response.status(200).entity(playlistsDTO).build();
     }
 
+    /**
+     * Add a new playlist
+     * @param owner the user token that comes with every request
+     * @param playlist the playlist that is attached to the response body
+     * @return a response with a list of all playlists
+     */
     @POST
     @Path("playlists")
     @Produces(MediaType.APPLICATION_JSON)
@@ -149,6 +170,12 @@ public class Spotitube {
         return Response.status(201).entity(playlistsDTO).build();
     }
 
+    /**
+     * Update a playlist
+     * @param owner the user token that comes with every request
+     * @param playlist the playlist that needs to be updated
+     * @return a response with the list of updated playlists
+     */
     @PUT
     @Path("playlists/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -171,6 +198,12 @@ public class Spotitube {
         return Response.status(200).entity(playlistsDTO).build();
     }
 
+    /**
+     * Get all tracks
+     * @param owner the user token that comes with every request
+     * @param forPlaylist the id of the playlist that the track could be added to
+     * @return a response with all tracks that could be added to a specific playlist
+     */
     @GET
     @Path("tracks")
     @Produces(MediaType.APPLICATION_JSON)
@@ -191,6 +224,12 @@ public class Spotitube {
         return Response.status(200).entity(tracksDTO).build();
     }
 
+    /**
+     * Get a track with specific id
+     * @param owner the user token that comes with every request
+     * @param id the id of the track
+     * @return a response with a single track
+     */
     @GET
     @Path("tracks/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -220,6 +259,12 @@ public class Spotitube {
         return Response.status(200).entity(trackDTO).build();
     }
 
+    /**
+     * Get all tracks for a specific playlist
+     * @param owner the user token that comes with every request
+     * @param id the id of the playlist
+     * @return a response with a list of tracks that belong to the playlist with given id
+     */
     @GET
     @Path("playlists/{id}/tracks")
     @Produces(MediaType.APPLICATION_JSON)
@@ -240,6 +285,13 @@ public class Spotitube {
         return Response.status(200).entity(tracksDTO).build();
     }
 
+    /**
+     * Delete a track from a playlist
+     * @param owner the user token that comes with every request
+     * @param playlistId the playlist where the track needs to be deleted from
+     * @param trackId the track that needs to be deleted
+     * @return a response that indicated success
+     */
     @DELETE
     @Path("/playlists/{playlistId}/tracks/{trackId}")
     public Response deleteTrackFromPlaylist(@QueryParam("token") String owner, @PathParam("playlistId") int playlistId, @PathParam("trackId") int trackId) {
@@ -252,6 +304,13 @@ public class Spotitube {
         return Response.status(200).build();
     }
 
+    /**
+     * Add a track to a playlist
+     * @param owner the user token that comes with every request
+     * @param playlistId the id of the playlist that the track needs to be added to
+     * @param track the id of the track that needs to be added to the playlist
+     * @return a response with all tracks
+     */
     @POST
     @Path("/playlists/{playlistId}/tracks")
     @Produces(MediaType.APPLICATION_JSON)
@@ -270,16 +329,28 @@ public class Spotitube {
         return Response.status(201).entity(tracksDTO).build();
     }
 
+    /**
+     * Set a IPlaylistDAO
+     * @param iPlaylistDAO
+     */
     @Inject
     public void setPlaylistDAO(IPlaylistDAO iPlaylistDAO) {
         this.iPlaylistDAO = iPlaylistDAO;
     }
 
+    /**
+     * Set a ITrackDAO
+     * @param iTrackDAO
+     */
     @Inject
     public void setTrackDAO(ITrackDAO iTrackDAO) {
         this.iTrackDAO = iTrackDAO;
     }
 
+    /**
+     * Set a IUserDAO
+     * @param iUserDAO
+     */
     @Inject
     public void setUserDAO(IUserDAO iUserDAO) {
         this.iUserDAO = iUserDAO;
