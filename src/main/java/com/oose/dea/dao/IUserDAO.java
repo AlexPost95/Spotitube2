@@ -18,5 +18,5 @@ public interface IUserDAO {
      * @param token the token of the user
      * @return a User
      */
-    User addUser(String name, String password, String token);
+    void addUser(String name, String password, String token);
 }

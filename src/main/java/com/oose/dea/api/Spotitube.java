@@ -53,7 +53,7 @@ public class Spotitube {
         tokenDTO.user = user.getName();
         tokenDTO.token = generatedToken;
 
-        User addedUser = iUserDAO.addUser(user.getName(), user.getPassword(), generatedToken);
+        iUserDAO.addUser(user.getName(), user.getPassword(), generatedToken);
 
         return Response.status(200).entity(tokenDTO).build();
     }
@@ -182,7 +182,8 @@ public class Spotitube {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updatePlaylist(@QueryParam("token") String owner, Playlist playlist) {
 
-        ArrayList<Playlist> playlists = iPlaylistDAO.updatePlaylistById(playlist.id, playlist.name, owner);
+        iPlaylistDAO.updatePlaylistById(playlist.id, playlist.name, owner);
+        ArrayList<Playlist> playlists = iPlaylistDAO.getPlaylists(owner);
 
         if (owner == null) {
             return Response.status(403).build();
