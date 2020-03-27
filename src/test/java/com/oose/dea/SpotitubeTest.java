@@ -26,12 +26,18 @@ public class SpotitubeTest {
         spotitube = new Spotitube();
     }
 
+    /**
+     * Test the response of the GET /hello endpoint
+     */
     @Test
     public void helloTest(){
         String expected = "hello test";
         assertEquals(expected, spotitube.hello());
     }
 
+    /**
+     * Test the response when posting a new user
+     */
     @Test
     public void loginTest(){
        //TODO
@@ -43,13 +49,7 @@ public class SpotitubeTest {
         user.password = "testPassword";
         user.token = "testUserToken";
 
-        User user2 = new User();
-        user2.name = "testUser2";
-        user2.password = "testPassword2";
-        user2.token = "testUserToken2";
-
-
-        when(userDAO.addUser(user.token)).thenReturn(user);
+        when(userDAO.addUser("name", "password", user.token)).thenReturn(user);
 
         spotitube.setUserDAO(userDAO);
 
@@ -62,6 +62,9 @@ public class SpotitubeTest {
 
     }
 
+    /**
+     * Test the response when retrieving all playlists
+     */
     @Test
     public void getAllPlaylistsTest(){
 
@@ -95,6 +98,9 @@ public class SpotitubeTest {
         assertEquals(200, response.getStatus());
     }
 
+    /**
+     * Test the response when retrieving all playlists
+     */
     @Test
     public void getPlaylistTest(){
         IPlaylistDAO playlistDAO = mock(IPlaylistDAO.class);
@@ -117,6 +123,9 @@ public class SpotitubeTest {
         assertEquals(200, response.getStatus());
     }
 
+    /**
+     * Test the response when deleting a playlist
+     */
 //    @Test
 //    public void deletePlaylistTest(){
 //    //TODO
@@ -151,16 +160,25 @@ public class SpotitubeTest {
 //        assertEquals(200, response.getStatus());
 //    }
 
+    /**
+     * Test the response when adding a playlist
+     */
 //    @Test
 //    public void addPlaylistTest(){
 //    //TODO
 //    }
 
+    /**
+     * Test the response when updating a playlist
+     */
 //    @Test
 //    public void updatePlaylistTest(){
 //    //TODO
 //    }
 
+    /**
+     * Test the response when retrieving tracks
+     */
     @Test
     public void getTracksTest(){
 
@@ -183,7 +201,7 @@ public class SpotitubeTest {
         tracks.add(track1);
         tracks.add(track2);
 
-        when(trackDAO.getTracks(0)).thenReturn(tracks);
+        when(trackDAO.getTracks(1)).thenReturn(tracks);
 
         spotitube.setTrackDAO(trackDAO);
 
@@ -203,6 +221,9 @@ public class SpotitubeTest {
         assertEquals(200, response.getStatus());
     }
 
+    /**
+     * Test the response when retrieving a specific track
+     */
     @Test
     public void getTrackTest(){
         ITrackDAO trackDAO = mock(ITrackDAO.class);
@@ -230,16 +251,25 @@ public class SpotitubeTest {
         assertEquals(200, response.getStatus());
     }
 
+/**
+ * Test the response when retrieving all tracks that belong to a specific playlist
+ */
 //    @Test
 //    public void getTracksByPlaylistTest(){
 //    //TODO
 //    }
 
+/**
+ * Test the response when deleting a track from a playlist
+ */
 //    @Test
 //    public void deleteTrackFromPlaylistTest(){
 //    //TODO
 //    }
 
+/**
+ * Test the response when adding a track to a playlist
+ */
 //    @Test
 //    public void addTrackToPlaylistTest(){
 //
