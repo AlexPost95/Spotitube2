@@ -1,9 +1,11 @@
 package com.oose.dea.dao;
 
+import com.oose.dea.api.oose.dea.api.dto.TrackDTO;
 import com.oose.dea.domain.Playlist;
 import com.oose.dea.domain.Track;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface ITrackDAO {
 

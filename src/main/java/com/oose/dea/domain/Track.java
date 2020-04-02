@@ -1,19 +1,24 @@
 package com.oose.dea.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 public class Track {
 
-    public int id;
-    public String title;
-    public String performer;
-    public int duration;
-    public String album;
-    public int playcount;
-    public Date publicationDate;
-    public String description;
-    public boolean offlineAvailable;
-    public int playlistId;
+
+        public int id;
+        public String title;
+        public String performer;
+        public int duration;
+        public String album;
+        public int playcount;
+        public Date publicationDate;
+        public String description;
+        public boolean offlineAvailable;
+        public int playlistId;
 
     public Track() {
     }

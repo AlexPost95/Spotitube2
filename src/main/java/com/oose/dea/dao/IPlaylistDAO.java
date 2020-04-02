@@ -4,6 +4,7 @@ import com.oose.dea.domain.Playlist;
 import com.oose.dea.domain.Track;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface IPlaylistDAO {
 
@@ -86,4 +87,5 @@ public interface IPlaylistDAO {
      * @return a list of tracks
      */
     void addTrackToPlaylist(int playlistId, int trackId, String owner);
+    List<Playlist> getAllPlaylistsJPA();
 }

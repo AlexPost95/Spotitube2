@@ -1,9 +1,8 @@
 package com.oose.dea.domain;
 
-import java.util.UUID;
-
 public class User {
 
+        public int id;
         public String name;
         public String password;
         public String token;

@@ -4,12 +4,17 @@ import com.oose.dea.domain.Playlist;
 import com.oose.dea.domain.Track;
 import javax.annotation.Resource;
 import javax.enterprise.inject.Default;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 @Default
 public class PlaylistDAO implements IPlaylistDAO{
@@ -240,6 +245,29 @@ public class PlaylistDAO implements IPlaylistDAO{
         }
         return totalDuration;
     }
+
+    public static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence
+            .createEntityManagerFactory("spotitube");
+
+    public List<Playlist> getAllPlaylistsJPA(){
+
+        List<Playlist> playlists = null;
+        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityTransaction transaction = null;
+        try {
+            transaction = manager.getTransaction();
+            transaction.begin();
+            playlists = manager.createQuery("SELECT p FROM Playlist p", Playlist.class).getResultList();
+            transaction.commit();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            manager.close();
+        }
+        return playlists;
+
+    }
+
 
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;

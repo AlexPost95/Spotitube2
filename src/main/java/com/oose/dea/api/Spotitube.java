@@ -4,6 +4,7 @@ import com.oose.dea.api.oose.dea.api.dto.*;
 import com.oose.dea.dao.IPlaylistDAO;
 import com.oose.dea.dao.ITrackDAO;
 import com.oose.dea.dao.IUserDAO;
+import com.oose.dea.dao.TrackDAO;
 import com.oose.dea.domain.*;
 
 import javax.inject.Inject;
@@ -11,6 +12,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -59,7 +61,7 @@ public class Spotitube {
     }
 
     /**
-     * Get all playlists
+     * Get all playlists with JPA!
      * @param owner the user token that comes with every request
      * @return a response with the list of all playlists
      */
@@ -68,8 +70,13 @@ public class Spotitube {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPlaylists(@QueryParam("token") String owner){
 
-        ArrayList<Playlist> playlists = iPlaylistDAO.getPlaylists(owner);
+        List<Playlist> playlists = iPlaylistDAO.getAllPlaylistsJPA();
         int totalDuration = iPlaylistDAO.getTotalDuration(owner);
+
+        PlaylistsDTO playlistsDTO = new PlaylistsDTO();
+        playlistsDTO.length = totalDuration;
+        playlistsDTO.playlists = playlists;
+
 
         if (owner == null) {
             return Response.status(403).build();
@@ -77,10 +84,6 @@ public class Spotitube {
         if (playlists == null) {
             return Response.status(400).build();
         }
-
-        PlaylistsDTO playlistsDTO = new PlaylistsDTO();
-        playlistsDTO.playlists = playlists;
-        playlistsDTO.length = totalDuration;
 
         return Response.status(200).entity(playlistsDTO).build();
     }

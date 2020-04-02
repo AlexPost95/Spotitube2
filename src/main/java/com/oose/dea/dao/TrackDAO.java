@@ -1,15 +1,18 @@
 package com.oose.dea.dao;
 
+import com.oose.dea.api.oose.dea.api.dto.TrackDTO;
 import com.oose.dea.domain.Track;
 
 import javax.annotation.Resource;
 import javax.enterprise.inject.Default;
+import javax.persistence.*;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 @Default
 public class TrackDAO implements ITrackDAO{

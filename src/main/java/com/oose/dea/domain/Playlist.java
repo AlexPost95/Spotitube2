@@ -1,10 +1,25 @@
 package com.oose.dea.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "playlist")
 public class Playlist {
 
+    @Id
+    @Column(name = "id", unique = true)
     public int id;
+
+    @Column(name = "name", unique = false)
     public String name;
+
+    @Column(name = "owner", unique = false)
     public String owner;
+
+    @Column(name = "tracks", unique = false)
     public String tracks;
 
     public Playlist(){};
