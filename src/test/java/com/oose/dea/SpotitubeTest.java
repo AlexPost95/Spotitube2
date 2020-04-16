@@ -1,6 +1,9 @@
 package com.oose.dea;
 
+import com.oose.dea.api.PlaylistApi;
 import com.oose.dea.api.Spotitube;
+import com.oose.dea.api.TrackApi;
+import com.oose.dea.api.UserApi;
 import com.oose.dea.api.oose.dea.api.dto.*;
 import com.oose.dea.dao.IPlaylistDAO;
 import com.oose.dea.dao.ITrackDAO;
@@ -21,6 +24,9 @@ import static org.mockito.Mockito.when;
 public class SpotitubeTest {
 
     Spotitube spotitube;
+    UserApi userApi;
+    TrackApi trackApi;
+    PlaylistApi playlistApi;
 
     @BeforeEach
     public void setup(){
@@ -48,9 +54,9 @@ public class SpotitubeTest {
         user.setPassword("testPassword");
         user.setToken("testUserToken");
 
-        spotitube.setUserDAO(userDAO);
+        userApi.setUserDAO(userDAO);
 
-        Response response = spotitube.getUser(user);
+        Response response = userApi.getUser(user);
 
         TokenDTO tokenDTO = (TokenDTO)response.getEntity();
 
@@ -80,9 +86,9 @@ public class SpotitubeTest {
 
         when(playlistDAO.getPlaylists("token")).thenReturn(playlists);
 
-        spotitube.setPlaylistDAO(playlistDAO);
+        playlistApi.setPlaylistDAO(playlistDAO);
 
-        Response response = spotitube.getPlaylists("token");
+        Response response = playlistApi.getPlaylists("token");
 
         PlaylistsDTO playlistsDTO = (PlaylistsDTO)response.getEntity();
         assertEquals("First playlist", playlistsDTO.playlists.get(0).name);
@@ -107,9 +113,9 @@ public class SpotitubeTest {
 
         when(playlistDAO.getPlaylistById(1, "token")).thenReturn(playlist);
 
-        spotitube.setPlaylistDAO(playlistDAO);
+        playlistApi.setPlaylistDAO(playlistDAO);
 
-        Response response = spotitube.getPlaylist("token", 1);
+        Response response = playlistApi.getPlaylist("token", 1);
 
         PlaylistDTO playlistDTO = (PlaylistDTO)response.getEntity();
 
@@ -140,9 +146,9 @@ public class SpotitubeTest {
 
         when(playlistDAO.getPlaylists("token")).thenReturn(playlists);
 
-        spotitube.setPlaylistDAO(playlistDAO);
+        playlistApi.setPlaylistDAO(playlistDAO);
 
-        Response response = spotitube.deletePlaylist("token", 1);
+        Response response = playlistApi.deletePlaylist("token", 1);
 
         PlaylistsDTO playlistsDTO = (PlaylistsDTO)response.getEntity();
         assertEquals("First playlist", playlistsDTO.playlists.get(0).name);
@@ -177,9 +183,9 @@ public class SpotitubeTest {
 
         when(playlistDAO.getPlaylists("token")).thenReturn(playlists);
 
-        spotitube.setPlaylistDAO(playlistDAO);
+        playlistApi.setPlaylistDAO(playlistDAO);
 
-        Response response = spotitube.addPlaylist("token", newPlaylist);
+        Response response = playlistApi.addPlaylist("token", newPlaylist);
 
         PlaylistsDTO playlistsDTO = (PlaylistsDTO)response.getEntity();
         assertEquals("First playlist", playlistsDTO.playlists.get(0).name);
@@ -210,9 +216,9 @@ public class SpotitubeTest {
 
         when(playlistDAO.getPlaylists("token")).thenReturn(playlists);
 
-        spotitube.setPlaylistDAO(playlistDAO);
+        playlistApi.setPlaylistDAO(playlistDAO);
 
-        Response response = spotitube.updatePlaylist("token", playlist1);
+        Response response = playlistApi.updatePlaylist("token", playlist1);
 
         PlaylistsDTO playlistsDTO = (PlaylistsDTO)response.getEntity();
         assertEquals("First playlist", playlistsDTO.playlists.get(0).name);
@@ -248,9 +254,9 @@ public class SpotitubeTest {
 
         when(trackDAO.getTracks(1)).thenReturn(tracks);
 
-        spotitube.setTrackDAO(trackDAO);
+        trackApi.setTrackDAO(trackDAO);
 
-        Response response = spotitube.getTracks("token", 1);
+        Response response = trackApi.getTracks("token", 1);
 
         TracksDTO tracksDTO = (TracksDTO)response.getEntity();
 
@@ -282,9 +288,9 @@ public class SpotitubeTest {
 
         when(trackDAO.getTrackById(1)).thenReturn(track);
 
-        spotitube.setTrackDAO(trackDAO);
+        trackApi.setTrackDAO(trackDAO);
 
-        Response response = spotitube.getTrack("token", 1);
+        Response response = trackApi.getTrack("token", 1);
 
         TrackDTO trackDTO = (TrackDTO)response.getEntity();
 
@@ -323,10 +329,10 @@ public class SpotitubeTest {
 
         when(playlistDAO.getTracksByPlaylistId(1, "token")).thenReturn(tracks);
 
-        spotitube.setTrackDAO(trackDAO);
-        spotitube.setPlaylistDAO(playlistDAO);
+        trackApi.setTrackDAO(trackDAO);
+        playlistApi.setPlaylistDAO(playlistDAO);
 
-        Response response = spotitube.getTracksByPlaylist("token", 1);
+        Response response = playlistApi.getTracksByPlaylist("token", 1);
 
         TracksDTO tracksDTO = (TracksDTO)response.getEntity();
 
@@ -369,10 +375,10 @@ public class SpotitubeTest {
 
         when(playlistDAO.getAllTracks("token")).thenReturn(tracks);
 
-        spotitube.setTrackDAO(trackDAO);
-        spotitube.setPlaylistDAO((playlistDAO));
+        trackApi.setTrackDAO(trackDAO);
+        playlistApi.setPlaylistDAO((playlistDAO));
 
-        Response response = spotitube.deleteTrackFromPlaylist("token", 1, 1);
+        Response response = playlistApi.deleteTrackFromPlaylist("token", 1, 1);
 
         TracksDTO tracksDTO = (TracksDTO)response.getEntity();
 
@@ -416,10 +422,10 @@ public class SpotitubeTest {
 
         when(playlistDAO.getTracksByPlaylistId(1, "token")).thenReturn(tracks);
 
-        spotitube.setTrackDAO(trackDAO);
-        spotitube.setPlaylistDAO((playlistDAO));
+        trackApi.setTrackDAO(trackDAO);
+        playlistApi.setPlaylistDAO((playlistDAO));
 
-        Response response = spotitube.addTrackToPlaylist("token", 1, track1);
+        Response response = playlistApi.addTrackToPlaylist("token", 1, track1);
 
         TracksDTO tracksDTO = (TracksDTO)response.getEntity();
 
