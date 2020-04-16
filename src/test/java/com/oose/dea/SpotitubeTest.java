@@ -11,6 +11,7 @@ import com.oose.dea.domain.Playlist;
 import com.oose.dea.domain.Playlist2;
 import com.oose.dea.domain.Track;
 import com.oose.dea.domain.User;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -24,6 +25,13 @@ public class SpotitubeTest {
     UserApi userApi;
     TrackApi trackApi;
     PlaylistApi playlistApi;
+
+    @BeforeEach
+    public void setup(){
+        userApi = new UserApi();
+        trackApi = new TrackApi();
+        playlistApi = new PlaylistApi();
+    }
 
     /**
      * Test the response when posting a new user
