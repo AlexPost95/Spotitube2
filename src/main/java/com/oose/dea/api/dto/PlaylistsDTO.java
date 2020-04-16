@@ -1,4 +1,4 @@
-package com.oose.dea.api.oose.dea.api.dto;
+package com.oose.dea.api.dto;
 
 import com.oose.dea.domain.Playlist;
 
