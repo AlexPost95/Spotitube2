@@ -1,11 +1,12 @@
 package com.oose.dea.api.exceptionmappers;
 
-import com.oose.dea.dao.SpotitubeServerErrorException;
 import com.oose.dea.dao.SpotitubeUnauthorizedErrorException;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
 
+@Provider
 public class SpotitubeUnauthorizedErrorExceptionMapper implements ExceptionMapper<SpotitubeUnauthorizedErrorException> {
 
     @Override
