@@ -1,10 +1,9 @@
 package com.oose.dea;
 
 import com.oose.dea.api.PlaylistApi;
-import com.oose.dea.api.Spotitube;
 import com.oose.dea.api.TrackApi;
 import com.oose.dea.api.UserApi;
-import com.oose.dea.api.oose.dea.api.dto.*;
+import com.oose.dea.api.dto.*;
 import com.oose.dea.dao.IPlaylistDAO;
 import com.oose.dea.dao.ITrackDAO;
 import com.oose.dea.dao.IUserDAO;
@@ -12,7 +11,6 @@ import com.oose.dea.domain.Playlist;
 import com.oose.dea.domain.Playlist2;
 import com.oose.dea.domain.Track;
 import com.oose.dea.domain.User;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -23,24 +21,9 @@ import static org.mockito.Mockito.when;
 
 public class SpotitubeTest {
 
-    Spotitube spotitube;
     UserApi userApi;
     TrackApi trackApi;
     PlaylistApi playlistApi;
-
-    @BeforeEach
-    public void setup(){
-        spotitube = new Spotitube();
-    }
-
-    /**
-     * Test the response of the GET /hello endpoint
-     */
-    @Test
-    public void helloTest(){
-        String expected = "hello test";
-        assertEquals(expected, spotitube.hello());
-    }
 
     /**
      * Test the response when posting a new user

@@ -1,7 +1,7 @@
 package com.oose.dea.api;
 
-import com.oose.dea.api.oose.dea.api.dto.TrackDTO;
-import com.oose.dea.api.oose.dea.api.dto.TracksDTO;
+import com.oose.dea.api.dto.TrackDTO;
+import com.oose.dea.api.dto.TracksDTO;
 import com.oose.dea.dao.IPlaylistDAO;
 import com.oose.dea.dao.ITrackDAO;
 import com.oose.dea.domain.Track;

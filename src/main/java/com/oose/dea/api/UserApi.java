@@ -1,6 +1,6 @@
 package com.oose.dea.api;
 
-import com.oose.dea.api.oose.dea.api.dto.TokenDTO;
+import com.oose.dea.api.dto.TokenDTO;
 import com.oose.dea.dao.IUserDAO;
 import com.oose.dea.domain.User;
 
