@@ -5,6 +5,8 @@ import com.oose.dea.api.dto.PlaylistsDTO;
 import com.oose.dea.api.dto.TracksDTO;
 import com.oose.dea.dao.IPlaylistDAO;
 import com.oose.dea.dao.ITrackDAO;
+import com.oose.dea.dao.SpotitubeServerErrorException;
+import com.oose.dea.dao.SpotitubeUnauthorizedErrorException;
 import com.oose.dea.domain.Playlist;
 import com.oose.dea.domain.Playlist2;
 import com.oose.dea.domain.Track;
@@ -28,14 +30,13 @@ public class PlaylistApi {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPlaylists(@QueryParam("token") String owner){
+    public Response getPlaylists(@QueryParam("token") String owner)
+            throws SpotitubeUnauthorizedErrorException {
 
         ArrayList<Playlist> playlists = iPlaylistDAO.getPlaylists(owner);
         int totalDuration = iPlaylistDAO.getTotalDuration(owner);
 
-        if (owner == null) {
-            return Response.status(403).build();
-        }
+
         if (playlists == null) {
             return Response.status(400).build();
         }
@@ -56,13 +57,11 @@ public class PlaylistApi {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPlaylist(@QueryParam("token") String owner, @PathParam("id") int id){
+    public Response getPlaylist(@QueryParam("token") String owner, @PathParam("id") int id)
+            throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
 
         Playlist playlist = iPlaylistDAO.getPlaylistById(id, owner);
 
-        if (owner == null) {
-            return Response.status(403).build();
-        }
         if (playlist == null) {
             return Response.status(400).build();
         }
@@ -84,15 +83,13 @@ public class PlaylistApi {
      */
     @DELETE
     @Path("/{id}")
-    public Response deletePlaylist(@QueryParam("token") String owner, @PathParam("id") int id) {
+    public Response deletePlaylist(@QueryParam("token") String owner, @PathParam("id") int id)
+            throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
         iPlaylistDAO.deletePlaylistById(id, owner);
 
         ArrayList<Playlist> playlists = iPlaylistDAO.getPlaylists(owner);
         int totalDuration = iPlaylistDAO.getTotalDuration(owner);
 
-        if (owner == null) {
-            return Response.status(403).build();
-        }
         if (playlists == null) {
             return Response.status(400).build();
         }
@@ -113,14 +110,12 @@ public class PlaylistApi {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addPlaylist(@QueryParam("token") String owner, Playlist2 playlist) {
+    public Response addPlaylist(@QueryParam("token") String owner, Playlist2 playlist)
+            throws SpotitubeUnauthorizedErrorException {
 
         iPlaylistDAO.addPlaylist(playlist.name, owner);
         ArrayList<Playlist> playlists = iPlaylistDAO.getPlaylists(owner);
 
-        if (owner == null) {
-            return Response.status(403).build();
-        }
         if (playlists == null) {
             return Response.status(400).build();
         }
@@ -142,14 +137,12 @@ public class PlaylistApi {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updatePlaylist(@QueryParam("token") String owner, Playlist playlist) {
+    public Response updatePlaylist(@QueryParam("token") String owner, Playlist playlist)
+            throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
 
         iPlaylistDAO.updatePlaylistById(playlist.id, playlist.name, owner);
         ArrayList<Playlist> playlists = iPlaylistDAO.getPlaylists(owner);
 
-        if (owner == null) {
-            return Response.status(403).build();
-        }
         if (playlists == null) {
             return Response.status(400).build();
         }
@@ -170,13 +163,11 @@ public class PlaylistApi {
     @GET
     @Path("/{id}/tracks")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getTracksByPlaylist(@QueryParam("token") String owner, @PathParam("id") int id){
+    public Response getTracksByPlaylist(@QueryParam("token") String owner, @PathParam("id") int id)
+            throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
 
         ArrayList<Track> tracks = iPlaylistDAO.getTracksByPlaylistId(id, owner);
 
-        if (owner == null) {
-            return Response.status(403).build();
-        }
         if (tracks == null) {
             return Response.status(400).build();
         }
@@ -196,11 +187,9 @@ public class PlaylistApi {
      */
     @DELETE
     @Path("/{playlistId}/tracks/{trackId}")
-    public Response deleteTrackFromPlaylist(@QueryParam("token") String owner, @PathParam("playlistId") int playlistId, @PathParam("trackId") int trackId) {
+    public Response deleteTrackFromPlaylist(@QueryParam("token") String owner, @PathParam("playlistId") int playlistId,
+                                            @PathParam("trackId") int trackId) throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
 
-        if (owner == null) {
-            return Response.status(403).build();
-        }
 
         iPlaylistDAO.deleteTrackFromPlaylist(playlistId, trackId, owner);
         ArrayList<Track> tracks = iPlaylistDAO.getAllTracks(owner);
@@ -222,7 +211,8 @@ public class PlaylistApi {
     @Path("/{playlistId}/tracks")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addTrackToPlaylist(@QueryParam("token") String owner, @PathParam("playlistId") int playlistId, Track track) {
+    public Response addTrackToPlaylist(@QueryParam("token") String owner, @PathParam("playlistId") int playlistId, Track track)
+            throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
 
         iPlaylistDAO.addTrackToPlaylist(playlistId, track.id, owner);
         ArrayList<Track> tracks = iPlaylistDAO.getTracksByPlaylistId(playlistId, owner);

@@ -13,14 +13,14 @@ public interface IPlaylistDAO {
      * @param owner the token of the owner
      * @return a Playlist
      */
-    Playlist getPlaylistById(int playlistId, String owner);
+    Playlist getPlaylistById(int playlistId, String owner) throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException;
 
     /**
      * Get all playlists from the database
      * @param owner the token of the owner
      * @return a list of all playlists
      */
-    ArrayList<Playlist> getPlaylists(String owner);
+    ArrayList<Playlist> getPlaylists(String owner) throws SpotitubeUnauthorizedErrorException;
 
     /**
      * Delete a playlist with a specific id
@@ -28,7 +28,7 @@ public interface IPlaylistDAO {
      * @param owner the token of the owner
      * @return a list of all updated playlists
      */
-    void deletePlaylistById(int id, String owner);
+    void deletePlaylistById(int id, String owner) throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException;
 
     /**
      * Add a new playlist
@@ -36,14 +36,14 @@ public interface IPlaylistDAO {
      * @param owner the token of the owner
      * @return a list of all updated playlists
      */
-    void addPlaylist(String name, String owner);
+    void addPlaylist(String name, String owner) throws SpotitubeUnauthorizedErrorException;
 
     /**
      * Get the total duration of all tracks that are in a playlist
      * @param owner the token of the owner
      * @return the total duration
      */
-    int getTotalDuration(String owner);
+    int getTotalDuration(String owner) throws SpotitubeUnauthorizedErrorException;
 
     /**
      * Update the name of a playlist
@@ -52,7 +52,7 @@ public interface IPlaylistDAO {
      * @param owner the token of the owner
      * @return a list of all updated playlists
      */
-    void updatePlaylistById(int playlistId, String name, String owner);
+    void updatePlaylistById(int playlistId, String name, String owner) throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException;
 
     /**
      * Get all tracks that are part of a specific playlist
@@ -60,7 +60,7 @@ public interface IPlaylistDAO {
      * @param owner the token of the owner
      * @return a list of tracks
      */
-    ArrayList<Track> getTracksByPlaylistId(int playlistId, String owner);
+    ArrayList<Track> getTracksByPlaylistId(int playlistId, String owner) throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException;
 
     /**
      * Delete a track from a playlist
@@ -69,14 +69,14 @@ public interface IPlaylistDAO {
      * @param owner the token of the owner
      * @return a list of tracks
      */
-    void deleteTrackFromPlaylist(int playlistId, int trackId, String owner);
+    void deleteTrackFromPlaylist(int playlistId, int trackId, String owner) throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException;
 
     /**
      * Get all tracks
      * @param owner the token of the owner
      * @return a list of tracks
      */
-    ArrayList<Track> getAllTracks(String owner);
+    ArrayList<Track> getAllTracks(String owner) throws SpotitubeUnauthorizedErrorException;
 
     /**
      * Add a track to a playlist
@@ -85,5 +85,5 @@ public interface IPlaylistDAO {
      * @param owner the token of the owner
      * @return a list of tracks
      */
-    void addTrackToPlaylist(int playlistId, int trackId, String owner);
+    void addTrackToPlaylist(int playlistId, int trackId, String owner) throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException;
 }

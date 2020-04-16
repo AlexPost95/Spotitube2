@@ -5,6 +5,8 @@ import com.oose.dea.api.dto.PlaylistsDTO;
 import com.oose.dea.api.dto.TracksDTO;
 import com.oose.dea.dao.IPlaylistDAO;
 import com.oose.dea.dao.ITrackDAO;
+import com.oose.dea.dao.SpotitubeServerErrorException;
+import com.oose.dea.dao.SpotitubeUnauthorizedErrorException;
 import com.oose.dea.domain.Playlist;
 import com.oose.dea.domain.Playlist2;
 import com.oose.dea.domain.Track;
@@ -35,7 +37,7 @@ public class PlaylistApiTest {
      * Test the response when retrieving all playlists
      */
     @Test
-    public void getAllPlaylistsTest(){
+    public void getAllPlaylistsTest() throws SpotitubeServerErrorException, SpotitubeUnauthorizedErrorException {
 
         IPlaylistDAO playlistDAO = mock(IPlaylistDAO.class);
 
@@ -71,7 +73,7 @@ public class PlaylistApiTest {
      * Test the response when retrieving all playlists
      */
     @Test
-    public void getPlaylistTest(){
+    public void getPlaylistTest() throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
         IPlaylistDAO playlistDAO = mock(IPlaylistDAO.class);
 
         Playlist playlist = new Playlist();
@@ -96,7 +98,7 @@ public class PlaylistApiTest {
      * Test the response when deleting a playlist
      */
     @Test
-    public void deletePlaylistTest(){
+    public void deletePlaylistTest() throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
         IPlaylistDAO playlistDAO = mock(IPlaylistDAO.class);
 
         ArrayList<Playlist> playlists = new ArrayList<Playlist>();
@@ -129,7 +131,7 @@ public class PlaylistApiTest {
      * Test the response when adding a playlist
      */
     @Test
-    public void addPlaylistTest(){
+    public void addPlaylistTest() throws SpotitubeUnauthorizedErrorException {
         IPlaylistDAO playlistDAO = mock(IPlaylistDAO.class);
 
         ArrayList<Playlist> playlists = new ArrayList<Playlist>();
@@ -166,7 +168,7 @@ public class PlaylistApiTest {
      * Test the response when updating a playlist
      */
     @Test
-    public void updatePlaylistTest(){
+    public void updatePlaylistTest() throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
         IPlaylistDAO playlistDAO = mock(IPlaylistDAO.class);
 
         ArrayList<Playlist> playlists = new ArrayList<Playlist>();
@@ -199,7 +201,7 @@ public class PlaylistApiTest {
      * Test the response when retrieving all tracks that belong to a specific playlist
      */
     @Test
-    public void getTracksByPlaylistTest(){
+    public void getTracksByPlaylistTest() throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
         ITrackDAO trackDAO = mock(ITrackDAO.class);
         IPlaylistDAO playlistDAO = mock(IPlaylistDAO.class);
 
@@ -245,7 +247,7 @@ public class PlaylistApiTest {
      * Test the response when deleting a track from a playlist
      */
     @Test
-    public void deleteTrackFromPlaylistTest(){
+    public void deleteTrackFromPlaylistTest() throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
         ITrackDAO trackDAO = mock(ITrackDAO.class);
         IPlaylistDAO playlistDAO = mock(IPlaylistDAO.class);
 
@@ -291,7 +293,7 @@ public class PlaylistApiTest {
      * Test the response when adding a track to a playlist
      */
     @Test
-    public void addTrackToPlaylistTest(){
+    public void addTrackToPlaylistTest() throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
 
         ITrackDAO trackDAO = mock(ITrackDAO.class);
         IPlaylistDAO playlistDAO = mock(IPlaylistDAO.class);
