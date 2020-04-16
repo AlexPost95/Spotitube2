@@ -1,4 +1,4 @@
-package com.oose.dea;
+package com.oose.dea.dao;
 
 import com.oose.dea.dao.TrackDAO;
 import com.oose.dea.domain.Track;

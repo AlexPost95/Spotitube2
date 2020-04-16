@@ -1,4 +1,4 @@
-package com.oose.dea;
+package com.oose.dea.dao;
 
 import com.oose.dea.dao.PlaylistDAO;
 import com.oose.dea.domain.Playlist;
