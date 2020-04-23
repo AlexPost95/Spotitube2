@@ -17,11 +17,14 @@ public class TrackDAO implements ITrackDAO{
     @Resource(name = "jdbc/spotitube")
     DataSource dataSource;
 
+    String dataError = "Error in retrieving data from the database";
+    String valueNotCorrect = " is not correct";
+
     @Override
-    public Track getTrackById(int trackId) {
+    public Track getTrackById(int trackId) throws SpotitubeServerErrorException {
 
         if (trackId <= 0){
-            return null;
+            throw new SpotitubeServerErrorException("TrackId" + valueNotCorrect);
         }
 
         try (Connection connection = dataSource.getConnection()) {
@@ -29,6 +32,10 @@ public class TrackDAO implements ITrackDAO{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, trackId);
             ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet == null){
+                throw new SpotitubeServerErrorException(dataError);
+            }
 
             while(resultSet.next()){
 
@@ -54,8 +61,11 @@ public class TrackDAO implements ITrackDAO{
     }
 
     @Override
-    public ArrayList<Track> getTracks(int forPlaylist) {
+    public ArrayList<Track> getTracks(int forPlaylist) throws SpotitubeServerErrorException {
 
+        if (forPlaylist <= 0){
+            throw new SpotitubeServerErrorException("ForPlaylist parameter" + valueNotCorrect);
+        }
         ArrayList<Track> tracks = new ArrayList<Track>();
 
         try (Connection connection = dataSource.getConnection()) {
@@ -63,6 +73,10 @@ public class TrackDAO implements ITrackDAO{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, forPlaylist);
             ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet == null){
+                throw new SpotitubeServerErrorException(dataError);
+            }
 
             while(resultSet.next()){
 

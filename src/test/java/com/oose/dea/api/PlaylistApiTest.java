@@ -131,7 +131,7 @@ public class PlaylistApiTest {
      * Test the response when adding a playlist
      */
     @Test
-    public void addPlaylistTest() throws SpotitubeUnauthorizedErrorException {
+    public void addPlaylistTest() throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
         IPlaylistDAO playlistDAO = mock(IPlaylistDAO.class);
 
         ArrayList<Playlist> playlists = new ArrayList<Playlist>();

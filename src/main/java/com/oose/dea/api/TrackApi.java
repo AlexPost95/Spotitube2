@@ -4,6 +4,7 @@ import com.oose.dea.api.dto.TrackDTO;
 import com.oose.dea.api.dto.TracksDTO;
 import com.oose.dea.dao.IPlaylistDAO;
 import com.oose.dea.dao.ITrackDAO;
+import com.oose.dea.dao.SpotitubeServerErrorException;
 import com.oose.dea.domain.Track;
 
 import javax.inject.Inject;
@@ -26,7 +27,7 @@ public class TrackApi {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getTracks(@QueryParam("token") String owner, @QueryParam("forPlaylist") int forPlaylist){
+    public Response getTracks(@QueryParam("token") String owner, @QueryParam("forPlaylist") int forPlaylist) throws SpotitubeServerErrorException {
 
         ArrayList<Track> tracks = iTrackDAO.getTracks(forPlaylist);
 
@@ -52,7 +53,7 @@ public class TrackApi {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getTrack(@QueryParam("token") String owner, @PathParam("id") int id){
+    public Response getTrack(@QueryParam("token") String owner, @PathParam("id") int id) throws SpotitubeServerErrorException {
 
         Track track = iTrackDAO.getTrackById(id);
 

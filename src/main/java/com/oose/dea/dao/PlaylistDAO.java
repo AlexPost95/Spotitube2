@@ -16,16 +16,19 @@ public class PlaylistDAO implements IPlaylistDAO{
 
     @Resource(name = "jdbc/spotitube")
     DataSource dataSource;
+    String tokenMissing = "Token is missing";
+    String dataError = "Error in retrieving data from the database";
+    String valueNotCorrect = " is not correct";
 
     @Override
     public Playlist getPlaylistById(int playlistId, String owner) throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
 
         if (owner == null) {
-            throw new SpotitubeUnauthorizedErrorException("Token is missing");
+            throw new SpotitubeUnauthorizedErrorException(tokenMissing);
         }
 
         if (playlistId <= 0){
-            throw new SpotitubeServerErrorException("PlaylistId is not correct");
+            throw new SpotitubeServerErrorException("PlaylistId" + valueNotCorrect);
         }
 
         try (Connection connection = dataSource.getConnection()) {
@@ -33,6 +36,10 @@ public class PlaylistDAO implements IPlaylistDAO{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, playlistId);
             ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet == null){
+                throw new SpotitubeServerErrorException(dataError);
+            }
 
             while(resultSet.next()){
 
@@ -52,10 +59,10 @@ public class PlaylistDAO implements IPlaylistDAO{
     }
 
     @Override
-    public ArrayList<Playlist> getPlaylists(String owner) throws SpotitubeUnauthorizedErrorException {
+    public ArrayList<Playlist> getPlaylists(String owner) throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
 
         if (owner == null) {
-            throw new SpotitubeUnauthorizedErrorException("Token is missing");
+            throw new SpotitubeUnauthorizedErrorException(tokenMissing);
         }
 
         ArrayList<Playlist> playlists = new ArrayList<Playlist>();
@@ -64,6 +71,10 @@ public class PlaylistDAO implements IPlaylistDAO{
             String sql = "select * from playlist";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet == null){
+                throw new SpotitubeServerErrorException(dataError);
+            }
 
             while(resultSet.next()){
 
@@ -87,14 +98,13 @@ public class PlaylistDAO implements IPlaylistDAO{
     public void deletePlaylistById(int playlistId, String owner) throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
 
         if (owner == null) {
-            throw new SpotitubeUnauthorizedErrorException("Token is missing");
+            throw new SpotitubeUnauthorizedErrorException(tokenMissing);
         }
 
         if (playlistId <= 0){
-            throw new SpotitubeServerErrorException("PlaylistId is not correct");
+            throw new SpotitubeServerErrorException("PlaylistId" + valueNotCorrect);
         }
 
-        ArrayList<Playlist> playlists = new ArrayList<Playlist>();
         try (Connection connection = dataSource.getConnection()) {
             String sql = "delete from playlist where id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -110,15 +120,15 @@ public class PlaylistDAO implements IPlaylistDAO{
     public void updatePlaylistById(int playlistId, String name, String owner) throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
 
         if (owner == null) {
-            throw new SpotitubeUnauthorizedErrorException("Token is missing");
+            throw new SpotitubeUnauthorizedErrorException(tokenMissing);
         }
 
         if (name == null){
-            throw new SpotitubeServerErrorException("Name is not correct");
+            throw new SpotitubeServerErrorException("Name"+ valueNotCorrect);
         }
 
         if (playlistId <= 0){
-            throw new SpotitubeServerErrorException("PlaylistId is not correct");
+            throw new SpotitubeServerErrorException("PlaylistId" + valueNotCorrect);
         }
 
         try (Connection connection = dataSource.getConnection()) {
@@ -137,11 +147,11 @@ public class PlaylistDAO implements IPlaylistDAO{
     public ArrayList<Track> getTracksByPlaylistId(int playlistId, String owner) throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
 
         if (owner == null) {
-            throw new SpotitubeUnauthorizedErrorException("Token is missing");
+            throw new SpotitubeUnauthorizedErrorException(tokenMissing);
         }
 
         if (playlistId <= 0){
-            throw new SpotitubeServerErrorException("PlaylistId is not correct");
+            throw new SpotitubeServerErrorException("PlaylistId" + valueNotCorrect);
         }
 
         ArrayList<Track> tracks = new ArrayList<Track>();
@@ -151,6 +161,10 @@ public class PlaylistDAO implements IPlaylistDAO{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, playlistId);
             ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet == null){
+                throw new SpotitubeServerErrorException(dataError);
+            }
 
             while(resultSet.next()){
 
@@ -179,15 +193,15 @@ public class PlaylistDAO implements IPlaylistDAO{
     public void deleteTrackFromPlaylist(int playlistId, int trackId, String owner) throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
 
         if (owner == null) {
-            throw new SpotitubeUnauthorizedErrorException("Token is missing");
+            throw new SpotitubeUnauthorizedErrorException(tokenMissing);
         }
 
         if (playlistId <= 0){
-            throw new SpotitubeServerErrorException("PlaylistId is not correct");
+            throw new SpotitubeServerErrorException("PlaylistId" + valueNotCorrect);
         }
 
         if (trackId <= 0){
-            throw new SpotitubeServerErrorException("TrackId is not correct");
+            throw new SpotitubeServerErrorException("TrackId" + valueNotCorrect);
         }
 
         try (Connection connection = dataSource.getConnection()) {
@@ -203,10 +217,10 @@ public class PlaylistDAO implements IPlaylistDAO{
     }
 
     @Override
-    public ArrayList<Track> getAllTracks(String owner) throws SpotitubeUnauthorizedErrorException {
+    public ArrayList<Track> getAllTracks(String owner) throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
 
         if (owner == null) {
-            throw new SpotitubeUnauthorizedErrorException("Token is missing");
+            throw new SpotitubeUnauthorizedErrorException(tokenMissing);
         }
 
         ArrayList<Track> tracks = new ArrayList<Track>();
@@ -215,6 +229,10 @@ public class PlaylistDAO implements IPlaylistDAO{
             String sql = "select * from track";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet == null){
+                throw new SpotitubeServerErrorException(dataError);
+            }
 
             while(resultSet.next()){
 
@@ -242,15 +260,15 @@ public class PlaylistDAO implements IPlaylistDAO{
     public void addTrackToPlaylist(int playlistId, int trackId, String owner) throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
 
         if (owner == null) {
-            throw new SpotitubeUnauthorizedErrorException("Token is missing");
+            throw new SpotitubeUnauthorizedErrorException(tokenMissing);
         }
 
         if (playlistId <= 0){
-            throw new SpotitubeServerErrorException("PlaylistId is not correct");
+            throw new SpotitubeServerErrorException("PlaylistId" + valueNotCorrect);
         }
 
         if (trackId <= 0){
-            throw new SpotitubeServerErrorException("TrackId is not correct");
+            throw new SpotitubeServerErrorException("TrackId" + valueNotCorrect);
         }
 
         try (Connection connection = dataSource.getConnection()) {
@@ -269,11 +287,11 @@ public class PlaylistDAO implements IPlaylistDAO{
     public void addPlaylist(String name, String owner) throws SpotitubeUnauthorizedErrorException {
 
         if (owner == null) {
-            throw new SpotitubeUnauthorizedErrorException("Token is missing");
+            throw new SpotitubeUnauthorizedErrorException(tokenMissing);
         }
 
         if (name == null) {
-            throw new SpotitubeUnauthorizedErrorException("Name is not correct");
+            throw new SpotitubeUnauthorizedErrorException("Name" + valueNotCorrect);
         }
 
         try (Connection connection = dataSource.getConnection()) {
@@ -291,10 +309,10 @@ public class PlaylistDAO implements IPlaylistDAO{
     }
 
     @Override
-    public int getTotalDuration(String owner) throws SpotitubeUnauthorizedErrorException {
+    public int getTotalDuration(String owner) throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
 
         if (owner == null) {
-            throw new SpotitubeUnauthorizedErrorException("Token is missing");
+            throw new SpotitubeUnauthorizedErrorException(tokenMissing);
         }
 
         int totalDuration = 0;
@@ -304,6 +322,10 @@ public class PlaylistDAO implements IPlaylistDAO{
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet == null){
+                throw new SpotitubeServerErrorException(dataError);
+            }
 
             while(resultSet.next()){
                 totalDuration = resultSet.getInt("SUM(duration)");

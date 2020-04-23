@@ -3,6 +3,7 @@ package com.oose.dea.api;
 import com.oose.dea.api.dto.TrackDTO;
 import com.oose.dea.api.dto.TracksDTO;
 import com.oose.dea.dao.ITrackDAO;
+import com.oose.dea.dao.SpotitubeServerErrorException;
 import com.oose.dea.domain.Track;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,7 @@ public class TrackApiTest {
      * Test the response when retrieving tracks
      */
     @Test
-    public void getTracksTest(){
+    public void getTracksTest() throws SpotitubeServerErrorException {
 
         ITrackDAO trackDAO = mock(ITrackDAO.class);
 
@@ -76,7 +77,7 @@ public class TrackApiTest {
      * Test the response when retrieving a specific track
      */
     @Test
-    public void getTrackTest(){
+    public void getTrackTest() throws SpotitubeServerErrorException {
         ITrackDAO trackDAO = mock(ITrackDAO.class);
 
         Track track = new Track();

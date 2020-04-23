@@ -31,7 +31,7 @@ public class PlaylistApi {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPlaylists(@QueryParam("token") String owner)
-            throws SpotitubeUnauthorizedErrorException {
+            throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
 
         ArrayList<Playlist> playlists = iPlaylistDAO.getPlaylists(owner);
         int totalDuration = iPlaylistDAO.getTotalDuration(owner);
@@ -111,7 +111,7 @@ public class PlaylistApi {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addPlaylist(@QueryParam("token") String owner, Playlist2 playlist)
-            throws SpotitubeUnauthorizedErrorException {
+            throws SpotitubeUnauthorizedErrorException, SpotitubeServerErrorException {
 
         iPlaylistDAO.addPlaylist(playlist.name, owner);
         ArrayList<Playlist> playlists = iPlaylistDAO.getPlaylists(owner);
