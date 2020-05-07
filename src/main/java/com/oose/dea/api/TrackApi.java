@@ -23,6 +23,7 @@ public class TrackApi {
      * Get all tracks
      * @param owner the user token that comes with every request
      * @param forPlaylist the id of the playlist that the track could be added to
+     * @throws SpotitubeServerErrorException
      * @return a response with all tracks that could be added to a specific playlist
      */
     @GET
@@ -48,6 +49,7 @@ public class TrackApi {
      * Get a track with specific id
      * @param owner the user token that comes with every request
      * @param id the id of the track
+     * @throws SpotitubeServerErrorException
      * @return a response with a single track
      */
     @GET

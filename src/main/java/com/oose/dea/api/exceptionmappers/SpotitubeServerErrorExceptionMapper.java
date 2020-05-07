@@ -9,6 +9,11 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public class SpotitubeServerErrorExceptionMapper implements ExceptionMapper<SpotitubeServerErrorException> {
 
+    /**
+     * ExceptionMapper for server errors
+     * @param exception
+     * @return
+     */
     @Override
     public Response toResponse(SpotitubeServerErrorException exception)
     {

@@ -26,6 +26,8 @@ public class PlaylistApi {
     /**
      * Get all playlists
      * @param owner the user token that comes with every request
+     * @throws SpotitubeServerErrorException
+     * @throws SpotitubeUnauthorizedErrorException
      * @return a response with the list of all playlists
      */
     @GET
@@ -52,6 +54,8 @@ public class PlaylistApi {
      * Get a specific playlist by id
      * @param owner the user token that comes with every request
      * @param id the id of the playlist that is being retrieved
+     * @throws SpotitubeServerErrorException
+     * @throws SpotitubeUnauthorizedErrorException
      * @return a response with a single playlist in the body
      */
     @GET
@@ -79,6 +83,8 @@ public class PlaylistApi {
      * Delete a specific playlist
      * @param owner the user token that comes with every request
      * @param id the id op the playlist that needs to be deleted
+     * @throws SpotitubeServerErrorException
+     * @throws SpotitubeUnauthorizedErrorException
      * @return a list of all playlists
      */
     @DELETE
@@ -105,6 +111,8 @@ public class PlaylistApi {
      * Add a new playlist
      * @param owner the user token that comes with every request
      * @param playlist the playlist that is attached to the response body
+     * @throws SpotitubeServerErrorException
+     * @throws SpotitubeUnauthorizedErrorException
      * @return a response with a list of all playlists
      */
     @POST
@@ -131,6 +139,8 @@ public class PlaylistApi {
      * Update a playlist
      * @param owner the user token that comes with every request
      * @param playlist the playlist that needs to be updated
+     * @throws SpotitubeServerErrorException
+     * @throws SpotitubeUnauthorizedErrorException
      * @return a response with the list of updated playlists
      */
     @PUT
@@ -158,6 +168,8 @@ public class PlaylistApi {
      * Get all tracks for a specific playlist
      * @param owner the user token that comes with every request
      * @param id the id of the playlist
+     * @throws SpotitubeServerErrorException
+     * @throws SpotitubeUnauthorizedErrorException
      * @return a response with a list of tracks that belong to the playlist with given id
      */
     @GET
@@ -183,6 +195,8 @@ public class PlaylistApi {
      * @param owner the user token that comes with every request
      * @param playlistId the playlist where the track needs to be deleted from
      * @param trackId the track that needs to be deleted
+     * @throws SpotitubeServerErrorException
+     * @throws SpotitubeUnauthorizedErrorException
      * @return a response that indicated success
      */
     @DELETE
@@ -205,6 +219,8 @@ public class PlaylistApi {
      * @param owner the user token that comes with every request
      * @param playlistId the id of the playlist that the track needs to be added to
      * @param track the id of the track that needs to be added to the playlist
+     * @throws SpotitubeServerErrorException
+     * @throws SpotitubeUnauthorizedErrorException
      * @return a response with all tracks
      */
     @POST
